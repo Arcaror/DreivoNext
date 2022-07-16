@@ -1,0 +1,20 @@
+.Home {
+
+    display: flex;
+    background-color: blueviolet;
+
+    flex-direction: column;
+
+
+
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+
+
+    font-family: 'Bangers', cursive;
+}
+.Home h3 {
+    font-size: 5em;
+
+}

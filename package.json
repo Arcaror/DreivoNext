@@ -1,0 +1,29 @@
+{
+  "scripts": {
+    "preinstall": "npx npm-force-resolutions",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "name": "predicatornext",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@next-auth/sequelize-adapter": "^1.0.4",
+    "dotenv": "^16.0.1",
+    "next": "^12.2.2",
+    "next-auth": "^4.9.0",
+    "pg": "^8.7.3",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.21.3",
+    "sqlite3": "^5.0.8"
+  },
+  "devDependencies": {
+    "eslint": "8.18.0",
+    "eslint-config-next": "12.1.6"
+  },
+  "description": ""
+}
