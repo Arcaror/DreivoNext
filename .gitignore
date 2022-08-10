@@ -207,3 +207,6 @@ package-lock.json
 .next/static/development/_buildManifest.js
 .next/static/webpack/7a8c78e259f176f3.webpack.hot-update.json
 .next/static/webpack/webpack.7a8c78e259f176f3.hot-update.js
+
+.next/
+.next
