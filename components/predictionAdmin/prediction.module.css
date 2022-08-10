@@ -1,0 +1,40 @@
+.prediction {
+
+}
+.container button  {
+
+    font-family: 'Bangers', cursive;
+
+    width: 20em;
+    height: 20em;
+}
+.buttonContainer{
+    font-family: 'Bangers', cursive;
+
+    justify-content: center;
+
+    background-color: aquamarine;
+    height : 10em;
+    width: 30em;
+}
+.create {
+    font-family: 'Bangers', cursive;
+
+    background-color: green;    
+    width: 100%;
+    height: 100%;
+}
+.yes {
+    font-family: 'Bangers', cursive;
+
+    background-color: blue;
+    width: 50%;
+    height: 100%;
+}
+.no {
+    font-family: 'Bangers', cursive;
+
+    background-color: red;
+    width: 50%;
+    height: 100%;
+}

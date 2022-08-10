@@ -1,5 +1,12 @@
 @media screen and (min-width: 100vh) {
 
+    .signOut{
+        display: flex;
+        justify-content: flex-end;
+
+
+    }
+    
     .container {
 
 
@@ -18,6 +25,16 @@
         font-family: 'Bangers', cursive;
         text-decoration: none;
         color: rgb(12, 209, 94);
+        
+    }
+    .container .signOut{
+        text-align: center;
+        margin-top: 0em;
+
+        font-size: 2em;
+        font-family: 'Bangers', cursive;
+        text-decoration: none;
+        color: rgb(209, 107, 12);
         
     }
     .container h1 {

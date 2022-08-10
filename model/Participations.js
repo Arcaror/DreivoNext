@@ -2,7 +2,7 @@ const { DataTypes, Model } = require('sequelize');
 
 const sequelize = require('/database/Database')
 
-const Players = sequelize.define('players', {
+const Participations = sequelize.define('participations', {
   // Model attributes are defined here
 
   id: {
@@ -12,28 +12,19 @@ const Players = sequelize.define('players', {
     autoIncrement: true
 
   },
-  idGoogle: {
+  userId: {
     type: DataTypes.STRING
-
   },
   name: {
     type: DataTypes.STRING
-    // allowNull defaults to true
   },
-  email: {
-    type: DataTypes.STRING
-    // allowNull defaults to true
-  },
-  image: {
+  response:{
     type: DataTypes.STRING
   },
-  winstreak: {
-    type: DataTypes.INTEGER
-    // allowNull defaults to true
+  prediId: {
+    type: DataTypes.STRING
   },
-  isAdmin: {
-    type: DataTypes.INTEGER
-  }
+
 }, {
   uniqueKeys: {
     actions_unique: {
@@ -42,10 +33,10 @@ const Players = sequelize.define('players', {
   },
   // Other model options go   
   sequelize, // We need to pass the connection instance
-  modelName: 'Players' // We need to choose the model name
+  modelName: 'Participations' // We need to choose the model name
 });
 
 // the defined model is the class itself
-console.log(Players === sequelize.models.Players); // true
+console.log(Participations === sequelize.models.Participations); // true
 
-module.exports = Players 
+module.exports = Participations 

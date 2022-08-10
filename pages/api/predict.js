@@ -1,7 +1,32 @@
-export default function handler(req, res) {
+const sequelize = require('../../database/Database')
 
- 
-    //res.status(200).send( { message: req.body } )
-    console.log(req.body)
-    res.send({ptdr:'srx'})
+export default async function handler(req, res) {
+
+
+try {
+     res.status(400).json(
+            {
+
+
+                response: await sequelize.models.predictions.findOne({
+
+                    
+                    order: [['id', 'DESC']]
+
+
+                })
+            }
+        )
+    }
+    catch{
+
+        res.status(400).json(
+            {
+                response: {
+                    id: null
+                }
+            })
+    }        
+    
 }
+

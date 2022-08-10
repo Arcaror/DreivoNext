@@ -2,9 +2,10 @@ import NextAuth from "next-auth"
 import GoogleProvider from "next-auth/providers/google";
 import SequelizeAdapter, { models } from "@next-auth/sequelize-adapter"
 import Sequelize, { DataTypes } from "sequelize"
-const Players = require('/model/Players')
+const Predictions = require('/model/Predictions')
 
-const sequelize = require('/database/Database')
+import sequelize from '/database/Database'
+
 
 
 
@@ -23,6 +24,7 @@ export default NextAuth({
       }
 
     })
+
   ],
   adapter: SequelizeAdapter(sequelize, {
     models: {
@@ -30,9 +32,18 @@ export default NextAuth({
         ...models.User,
         winstreak: DataTypes.INTEGER,
         isAdmin: DataTypes.INTEGER
-      }
+      }),
+      Predictions: sequelize.define("predictions", {
+        name: DataTypes.TEXT,
+        end: DataTypes.INTEGER
+      }),
+      Participations: sequelize.define("participations",{
+        userId: DataTypes.STRING,
+        name: DataTypes.STRING,
+        response: DataTypes.STRING,
+        prediId: DataTypes.STRING
 
-      )
+      })
     }
   }
   ),
@@ -44,7 +55,7 @@ export default NextAuth({
     async redirect({ url, baseUrl }) {
 
 
- 
+
       // Allows relative callback URLs
       if (url.startsWith("/")) return `${baseUrl}${url}`
 
@@ -59,10 +70,8 @@ export default NextAuth({
 
       if (token) {
         session.id = token.id;
+
       }
-
-
-
 
 
 
@@ -73,18 +82,6 @@ export default NextAuth({
     async jwt({ token, user, account, profile, isNewUser }) {
       console.log("in jwt user =", user, account, profile, isNewUser)
 
-
-      // Players.findOrCreate({
-      //   where: { id: token.id },
-      //   defaults: {
-      //     idgoogle: token.id,
-      //     name: profile.name,
-      //     email: profile.email,
-      //     image: profile.image,
-      //     winstreak: 0,
-      //     isAdmin: 0
-      //   },
-      // })
 
 
 

@@ -29,7 +29,7 @@ export default function Header() {
             </>)}
             {session && (<>
                 <p> You are connected {session.status}</p>
-                <button onClick={() => signOut()}>Sign out</button>
+                <a className={styles.signOut} onClick={() => signOut()} href='/'>Sign out</a>
             </>)}
 
         </div>

@@ -1,40 +1,42 @@
 import styles from './index.module.css'
-
 import React from 'react'
 import Answer from '../components/button/answer';
 import Head from 'next/head'
 import { useSession } from 'next-auth/react'
+import Router from 'next/router';
+import { useEffect } from "react";
 
 
-
-
-export class HomePage extends React.Component {
-
-
-    constructor(props) {
-        super(props)
-    }
-
-    static async getInitialProps(context) {
-
-        // const cookies = new Cookies(context.req, context.res)
-        // cookies.set("next-auth.callback-url", "http://localhost:3000/api/auth/callback/google")
-
-        console.log("lol")
-        const res = await fetch('http://localhost:3000/api/predict/');
-        const json = await res.json();
-
-
-        return { predict: json.ptdr }
-
-    }
-
-}
-export default function Home() {
+export default function Home(props) {
 
     const { data: session } = useSession()
-    return (<>
 
+    const refresh = useEffect(() => {
+        setTimeout(() => {
+            try {
+                if (!props.prediction.id ) {
+                    Router.reload()
+                }
+            } catch {
+                getSess
+            }
+        }, 200)
+
+    })
+    const getSess = useEffect(() => {
+        setTimeout(() => {
+            try {
+                if (!props.prediction.id ) {
+                    Router.reload()
+                }
+            } catch {
+                Router.reload()
+            }
+        }, 200)
+
+    })
+
+    return (<>
 
         <Head>
             <link rel="preconnect" href="https://fonts.googleapis.com"></link>
@@ -46,11 +48,27 @@ export default function Home() {
         <div className={styles.Home}>
 
 
-            {session ? (
-                <><h3>Dreivo will be the winner of the next fight?</h3><Answer></Answer></>
+            {session && props.notFound == false ? (
+
+                <>
+                    {props.prediction.name ? <>
+                        Prediction identifier : {props.prediction.id}
+
+                        <h3>{props.prediction.name}</h3>
+                        <Answer props={props}></Answer> </> :
+                        <>
+                            {refresh}
+                        </>
+                    }
+                </>
 
             ) : (
-                <h3> Connect you please :</h3>
+                <>
+                    {getSess}
+                    <h3> Connect you please</h3>
+                    {props.notFound}
+                </>
+
 
             )}
 
@@ -63,3 +81,56 @@ export default function Home() {
 
 
 
+export async function getServerSideProps(context) {
+
+    try {
+
+
+
+        //FIRST API REQUEST
+        const res1 = await fetch('http://localhost:3000/api/admin', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(context.req.cookies["next-auth.session-token"])
+
+        })
+
+        const sess = await res1.json()
+
+        //SECOND API REQUEST
+        const res2 = await fetch('http://localhost:3000/api/admin2', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(sess.response.userId)
+
+        })
+        const user = await res2.json()
+
+        //Third API REQUEST
+        const res3 = await fetch('http://localhost:3000/api/predict')
+        const predi = await res3.json()
+
+
+
+        return {
+            props: {
+                sess: sess.response,
+                user: user.response,
+                prediction: predi.response,
+                notFound: false,
+
+            }
+        }
+
+    } catch {
+        return {
+            props: {
+                notFound: true
+            }
+        }
+    }
+}

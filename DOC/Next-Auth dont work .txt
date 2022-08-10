@@ -1,0 +1,5 @@
+DELETE FROM sessions;
+DELETE FROM accounts;
+DELETE FROM users;
+DELETE FROM verification_tokens;
+ALTER TABLE accounts MODIFY COLUMN id_token varchar(1200);
