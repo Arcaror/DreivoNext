@@ -15,7 +15,7 @@ const Predictions = sequelize.define('predictions', {
   name: {
     type: DataTypes.STRING
   },
-  result: {
+  end: {
     type: DataTypes.STRING
   },
 

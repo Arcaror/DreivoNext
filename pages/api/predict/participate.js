@@ -6,25 +6,42 @@ const sequelize = require('../../../database/Database.js')
 
 
 export default async function handler(req, res) {
-  const user = req.body.user
-  const predict = req.body.predi
-  const answer = req.body.answer
+    const user = req.body.user
+    const predict = req.body.predi
+    const answer = req.body.answer
 
     try {
-        const predi = await Participations.create({ userId: user.id, name: user.name , response: answer, prediId: predict.id })
-        res.status(400).json(
+
+        res.json(
             {
 
 
-                created: predi
+                response: await Participations.findOrCreate({
+                    where: {
+                        userId: user.id,
+                        prediId: predict.id
+                    },
+                    defaults: {
+                        userId: user.id,
+                        name: user.name,
+                        response: answer,
+                        prediId: predict.id
+                    }
+
+
+
+                })
+
             })
+    } catch (err) {
 
-    } catch {
+        console.log(err)
+
         res.status(400).json(
+
             {
 
-
-                created: 0
+                response: 0
             })
 
     }

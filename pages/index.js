@@ -1,40 +1,36 @@
 import styles from './index.module.css'
 import React from 'react'
-import Answer from '../components/button/answer';
+import Answer from '../components/predict/answer';
 import Head from 'next/head'
 import { useSession } from 'next-auth/react'
 import Router from 'next/router';
 import { useEffect } from "react";
+import { clearPreviewData } from 'next/dist/server/api-utils';
+
 
 
 export default function Home(props) {
 
     const { data: session } = useSession()
 
-    const refresh = useEffect(() => {
-        setTimeout(() => {
-            try {
-                if (!props.prediction.id ) {
-                    Router.reload()
-                }
-            } catch {
-                getSess
-            }
-        }, 200)
 
-    })
-    const getSess = useEffect(() => {
-        setTimeout(() => {
-            try {
-                if (!props.prediction.id ) {
-                    Router.reload()
-                }
-            } catch {
+    function test() {
+            // setTimeout(() => {
+            //     try {
+            //         if (session && props.prediction != null) {
+            //             console.log("ready")
+            //         }
+            //     } catch {
+            //         console.log("Error \nPrediction :" + props.prediction + "\nUser : " + props.user + "\nSession : " + props.sess + "\nnot found?" + props.notFound)
+            //         Router.reload()
+            //     }
+            // }, 1000)
+
+            setTimeout(() => {
                 Router.reload()
-            }
-        }, 200)
-
-    })
+            }, 1000)
+        
+    }
 
     return (<>
 
@@ -51,20 +47,20 @@ export default function Home(props) {
             {session && props.notFound == false ? (
 
                 <>
-                    {props.prediction.name ? <>
-                        Prediction identifier : {props.prediction.id}
+                    {props.prediction.id ? <>
 
                         <h3>{props.prediction.name}</h3>
                         <Answer props={props}></Answer> </> :
                         <>
-                            {refresh}
+                            Loading ...
+                            {test()}
                         </>
                     }
                 </>
 
             ) : (
                 <>
-                    {getSess}
+
                     <h3> Connect you please</h3>
                     {props.notFound}
                 </>
@@ -78,17 +74,13 @@ export default function Home(props) {
 }
 
 
-
-
-
 export async function getServerSideProps(context) {
 
     try {
 
 
-
         //FIRST API REQUEST
-        const res1 = await fetch('http://localhost:3000/api/admin', {
+        const res1 = await fetch('http://localhost:3000/api/session', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -96,41 +88,50 @@ export async function getServerSideProps(context) {
             body: JSON.stringify(context.req.cookies["next-auth.session-token"])
 
         })
+        const session = await res1.json()
 
-        const sess = await res1.json()
-
+        console.log("params Session is " + session)
         //SECOND API REQUEST
-        const res2 = await fetch('http://localhost:3000/api/admin2', {
+        const res2 = await fetch('http://localhost:3000/api/user', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(sess.response.userId)
-
+            body: JSON.stringify(session.response.userId)
         })
-        const user = await res2.json()
+        const usr = await res2.json()
 
         //Third API REQUEST
         const res3 = await fetch('http://localhost:3000/api/predict')
         const predi = await res3.json()
+        console.log(predi)
+
 
 
 
         return {
             props: {
-                sess: sess.response,
-                user: user.response,
+                sess: session.response,
+                user: usr.response,
                 prediction: predi.response,
                 notFound: false,
 
             }
         }
+    } catch (err) {
+        console.log("CATCH " + err)
 
-    } catch {
         return {
             props: {
-                notFound: true
+                sess: null,
+                user: null,
+                prediction: null,
+                notFound: true,
+
             }
         }
     }
+
+
 }
+

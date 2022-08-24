@@ -1,13 +1,6 @@
 const Sequelize = require('sequelize');
 
-const sequelize = new Sequelize('mysql://Louis:@localhost:3306/predictor', {
-  pool: {
-    max: 5,
-    min: 0,
-    acquire: 30000,
-    idle: 10000
-  }
-})
+const sequelize = new Sequelize('mysql://Louis:@localhost:3306/predictor')
 
 
 

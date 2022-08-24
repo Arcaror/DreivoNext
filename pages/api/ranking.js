@@ -8,10 +8,10 @@ export default async function handler(req, res) {
             {
 
 
-                response: await sequelize.models.predictions.findOne({
+                response: await sequelize.models.users.findAll({
 
 
-                    order: [['id', 'DESC']]
+                    order: [['winstreak', 'DESC']]
 
 
                 })

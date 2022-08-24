@@ -1,6 +1,5 @@
 import styles from '../index.module.css'
 import React from 'react'
-import Answer from '../../components/button/answer';
 import Head from 'next/head'
 import { useSession } from 'next-auth/react'
 import { clearPreviewData, getCookieParser } from 'next/dist/server/api-utils';
@@ -43,7 +42,7 @@ export default function Admin(props) {
             {props.notFound == false && props.sess.sessionToken != undefined ? (
                 <>
 
-                    {props.user.isAdmin ? (
+                    {props.user.isAdmin == 1 ? (
 
 
                         <Prediction props={props}></Prediction>
@@ -85,7 +84,7 @@ export async function getServerSideProps(context) {
 
 
         //FIRST API REQUEST
-        const res1 = await fetch('http://localhost:3000/api/admin', {
+        const res1 = await fetch('http://localhost:3000/api/session', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -97,7 +96,7 @@ export async function getServerSideProps(context) {
         const sess = await res1.json()
 
         //SECOND API REQUEST
-        const res2 = await fetch('http://localhost:3000/api/admin2', {
+        const res2 = await fetch('http://localhost:3000/api/user', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
