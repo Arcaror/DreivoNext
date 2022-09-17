@@ -17,11 +17,22 @@ export default async function handler(req, res) {
         })
 
         winners.forEach(async (participation)=>{
+            
             await sequelize.models.users.increment("winstreak", { by: 1,
                 where: {
                     id: participation.userId
                 }
             })
+
+            const guy = await sequelize.models.users.findOne({
+                where:{
+                    id: participation.userId
+                }
+            })
+
+            if (guy.dataValues.winstreak == 6){
+                await sequelize.models.winners.create({userId: guy.id, name: guy.name, winstreak: guy.winstreak})
+            }
 
         })
         const loosers = await sequelize.models.participations.findAll({
@@ -41,6 +52,9 @@ export default async function handler(req, res) {
                     id: participation.userId
                 }
         })
+
+
+        
         })
 
         res.json(

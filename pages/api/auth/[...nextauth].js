@@ -1,5 +1,5 @@
 import NextAuth from "next-auth"
-import GoogleProvider from "next-auth/providers/google";
+import TwitchProvider from "next-auth/providers/twitch";
 import SequelizeAdapter, { models } from "@next-auth/sequelize-adapter"
 import Sequelize, { DataTypes } from "sequelize"
 const Predictions = require('/model/Predictions')
@@ -12,19 +12,22 @@ import sequelize from '/database/Database'
 export default NextAuth({
   // Configure one or more authentication providers
   providers: [
-    GoogleProvider({
-      clientId: process.env.GOOGLE_ID,
-      clientSecret: process.env.GOOGLE_SECRET,
-      authorization: {
-        params: {
-          prompt: "consent",
-          access_type: "offline",
-          response_type: "code"
-        }
-      }
+    // GoogleProvider({
+    //   clientId: process.env.GOOGLE_ID,
+    //   clientSecret: process.env.GOOGLE_SECRET,
+    //   authorization: {
+    //     params: {
+    //       prompt: "consent",
+    //       access_type: "offline",
+    //       response_type: "code"
+    //     }
+    //   }
 
+    // })
+    TwitchProvider({
+      clientId: process.env.TWITCH_CLIENT_ID,
+      clientSecret: process.env.TWITCH_CLIENT_SECRET
     })
-
   ],
   adapter: SequelizeAdapter(sequelize, {
     models: {
@@ -43,6 +46,11 @@ export default NextAuth({
         response: DataTypes.STRING,
         prediId: DataTypes.STRING
 
+      }),
+      winners: sequelize.define("winners",{
+        userId: DataTypes.STRING,
+        name: DataTypes.STRING,
+        winstreak: DataTypes.INTEGER
       })
     }
   }

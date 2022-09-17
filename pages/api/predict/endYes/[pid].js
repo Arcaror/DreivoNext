@@ -2,6 +2,9 @@
 const sequelize = require('../../../../database/Database')
 
 export default async function handler(req, res) {
+
+  try{
+    
   const { pid } = req.query
 
   const response = await sequelize.models.predictions.findOne(
@@ -17,7 +20,7 @@ export default async function handler(req, res) {
 
 
 
-  res.status(400).json(
+  res.json(
     {
 
       response: "Yes"
@@ -25,6 +28,12 @@ export default async function handler(req, res) {
     }
   )
 
+
+}catch(err){
+  res.json({
+    response: 'click again'
+  })
+}
 
 }
 

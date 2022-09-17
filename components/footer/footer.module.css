@@ -3,6 +3,7 @@
     .container {
 
         display: flex;
+        position: fixed;
         background-color: rgb(192, 192, 192);
         bottom: 0px;
 

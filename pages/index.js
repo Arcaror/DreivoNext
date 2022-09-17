@@ -6,30 +6,36 @@ import { useSession } from 'next-auth/react'
 import Router from 'next/router';
 import { useEffect } from "react";
 import { clearPreviewData } from 'next/dist/server/api-utils';
+import Prediction from '../components/predictionAdmin/prediction';
+
+import { io } from 'socket.io-client'
 
 
+export const socket = io("http://localhost:3000")
 
 export default function Home(props) {
 
     const { data: session } = useSession()
+  
+
 
 
     function test() {
-            // setTimeout(() => {
-            //     try {
-            //         if (session && props.prediction != null) {
-            //             console.log("ready")
-            //         }
-            //     } catch {
-            //         console.log("Error \nPrediction :" + props.prediction + "\nUser : " + props.user + "\nSession : " + props.sess + "\nnot found?" + props.notFound)
-            //         Router.reload()
-            //     }
-            // }, 1000)
+        // setTimeout(() => {
+        //     try {
+        //         if (session && props.prediction != null) {
+        //             console.log("ready")
+        //         }
+        //     } catch {
+        //         console.log("Error \nPrediction :" + props.prediction + "\nUser : " + props.user + "\nSession : " + props.sess + "\nnot found?" + props.notFound)
+        //         Router.reload()
+        //     }
+        // }, 1000)
 
-            setTimeout(() => {
-                Router.reload()
-            }, 1000)
-        
+        setTimeout(() => {
+            Router.reload()
+        }, 1000)
+
     }
 
     return (<>
@@ -49,8 +55,9 @@ export default function Home(props) {
                 <>
                     {props.prediction.id ? <>
 
-                        <h3>{props.prediction.name}</h3>
-                        <Answer props={props}></Answer> </> :
+                        <Answer props={props}></Answer>
+
+                        </>:
                         <>
                             Loading ...
                             {test()}

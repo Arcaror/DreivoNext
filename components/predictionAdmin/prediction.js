@@ -1,92 +1,122 @@
 import styles from './prediction.module.css'
-import { useState, useEffect } from "react";
 import Head from 'next/head'
-import React from 'react'
+import React, { useState, useEffect } from 'react';
+
 import Router from 'next/router'
+import { io } from 'socket.io-client'
+
+import { socket } from '../predict/answer'
+
+export default function Prediction(props) {
 
 
-export default class Prediction extends React.Component {
+    const [predi, setPredi] = useState('');
+    const [answer, setAnswer] = useState('');
 
 
-    constructor(props) {
-        super(props)
-        this.state = {
-            predict: props.props.predict,
-            response: ''
-        }
-        this.timeOut = 1000
-    }
+    useEffect(() => {
+        fetch('/api/socketio').finally(() => {
+            socket.on('connect', () => {
+                console.log('connect')
 
-    componentDidMount() {
-        setInterval(() => {
-            this.fetchLastPredi().then((response) => {
-       
-                    this.setState({
-                        predict: response.response.id,
-                        response: response.response.end
-                    })
-        
-
+                socket.emit('admin')
             })
 
 
 
-        }, this.timeOut)
 
-    }
 
-    async fetchLastPredi() {
+
+            socket.on('disconnect', () => {
+                console.log('disconnect')
+            })
+
+
+        })
+    })
+
+    fetchLastPredi().then((response) => {
+        setPredi(response.response.id)
+        setAnswer(response.response.end)
+
+
+    })
+
+
+
+
+
+    async function fetchLastPredi() {
 
         const mySession = await fetch('http://localhost:3000/api/auth/session')
         const res3 = await fetch('http://localhost:3000/api/predict')
         const predi = await res3.json()
+
+
         return predi
 
     }
-    async create() {
+    async function create() {
         const res1 = await fetch('http://localhost:3000/api/predict/create')
         const prediction = await res1.json()
-        this.fetchLastPredi().then((response) => {
-            this.setState({
-                predict: response.response.id,
-                response: ''
+
+        fetchLastPredi().then((response) => {
+            setPredi(response.response.id)
+            setAnswer('')
+            fetch('/api/socketio').finally(() => {
+
+                socket.emit('reloadUsers', 'reloadUsers')
+
             })
         })
 
     }
 
-    async endYes() {
+    async function endYes(predi) {
         try {
-            await fetch('http://localhost:3000/api/predict/endYes/' + this.state.predict)
+            await fetch('http://localhost:3000/api/predict/endYes/' + predi)
 
-            this.fetchLastPredi().then((response) => {
-                this.setState({
-                    predict: response.response.id,
-                    response: 'yes'
+            fetchLastPredi().then((response) => {
+                setPredi(response.response.id)
+                setAnswer('yes')
+                fetch('/api/socketio').finally(() => {
+
+                    socket.emit('reloadUsers', 'reloadUsers')
+
                 })
             })
+
 
             await fetch('http://localhost:3000/api/predict/rewardYes', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(this.state.predict)
+                body: JSON.stringify(predi)
+            }).then(() => {
+                fetch('/api/socketio').finally(() => {
+
+                    socket.emit('reloadRanking', 'reloadRanking')
+
+
+                })
             })
 
-            return 'yes'
         } catch (err) {
             Router.reload()
         }
     }
-    async endNo() {
+    async function endNo(predi) {
         try {
-            await fetch('http://localhost:3000/api/predict/endNo/' + this.state.predict)
+            await fetch('http://localhost:3000/api/predict/endNo/' + predi)
 
-            this.fetchLastPredi().then((response) => {
-                this.setState({
-                    predict: response.response.id,
-                    response: 'no'
+            fetchLastPredi().then((response) => {
+                setPredi(response.response.id)
+                setAnswer('no')
+                fetch('/api/socketio').finally(() => {
+
+                    socket.emit('reloadUsers', 'reloadUsers')
+
                 })
             })
 
@@ -96,17 +126,22 @@ export default class Prediction extends React.Component {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(this.state.predict)
+                body: JSON.stringify(predi)
+            }).then(() => {
+                fetch('/api/socketio').finally(() => {
+
+                    socket.emit('reloadRanking', 'reloadRanking')
+
+                })
             })
 
-            return 'no'
         } catch (err) {
             Router.reload()
 
         }
     }
 
-    render() {
+    function render() {
         return (<div className={styles.prediction}>
 
             <Head>
@@ -117,18 +152,22 @@ export default class Prediction extends React.Component {
 
 
 
-            Prediction ID is : {this.state.predict} and you say response : {this.state.response}
-
+            <h2> Prediction ID is : {predi} and you say response : {answer}
+            </h2>
             <div className={styles.buttonContainer}>
-                <button className={styles.create} onClick={() => this.create()}> Create prediction </button>
-                <button className={styles.yes} onClick={() => this.endYes()}> YES </button>
-                <button className={styles.no} onClick={() => this.endNo()}> NO </button>
-
+                <button className={styles.create} onClick={() => create()}> Create prediction </button>
+                <div className={styles.yesNo}>
+                <button className={styles.yes} onClick={() => endYes(predi)}>set result YES </button>
+                <button className={styles.no} onClick={() => endNo(predi)}>set result  NO </button>
+</div>
             </div>
 
 
         </div>)
     }
-}
 
+    return render()
+
+
+}
 

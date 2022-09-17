@@ -1,64 +1,103 @@
 import styles from './answer.module.css'
-import React from "react"
 import Router from 'next/router'
-import { clearPreviewData } from 'next/dist/server/api-utils'
+import React, { useState, useEffect } from 'react';
+
+const moment = require('moment')
+import { io } from 'socket.io-client'
+import Progress_bar from '../progressbar/progress_bar';
+
+export const socket = io("http://localhost:3000")
+
+export default function Answer({ props }) {
+
+    const [predi, setPredi] = useState('');
+    const [answer, setAnswer] = useState('');
+    const [time, setTime] = useState('')
+
+    setInterval(() => {
+        setTime(moment.utc().diff(predi.createdAt, 'seconds'))
+
+    }, 200)
 
 
 
-export default class Answer extends React.Component {
+    useEffect(() => {
 
-    constructor(props) {
-        super(props)
-        this.state = {
-            predi: '',
-            answer: ''
-
-        }
+        fetch('/api/socketio').finally(() => {
 
 
-        this.timeOut = 1000
-    }
+            socket.on('connect', () => {
+                console.log('connect')
+                socket.emit('hello')
+                socket.emit('ping')
+                socket.emit('hello')
+            })
 
-    componentDidMount(props) {
+            socket.on('hello', data => {
+                console.log('hello', data)
+            })
 
-        setInterval(() => {
+            socket.on('ping', data => {
+                console.log('ping', data)
+            })
+            socket.on('reload', data => {
+                setTimeout(() => {
+                    Router.reload()
+
+                }, 1000)
+            })
+
+            socket.on('a user connected', () => {
+                console.log('a user connected')
+            })
+
+
+
+
+            socket.on("reload", (data) => {
+                console.log("ws : on reload event ")
+                setPredi(data.predi)
+            })
+
+
+
+            socket.on('disconnect', () => {
+                console.log('disconnect')
+            })
+
+
+
+
 
             try {
-                this.fetchLastPredi().then((response) => {
-                    this.setState({
-                        predi: response.response
-                    })
+                fetchLastPredi().then((response) => {
+                    setPredi(response.response)
                 })
             } catch (err) {
                 Router.reload()
             }
 
 
-        }, this.timeOut)
 
+
+        })
+
+    }, []) // Added [] as useEffect filter so it will be executed only once, when component is mounted
+
+
+
+
+
+    async function fetchLastPredi() {
+        await fetch('http://localhost:3000/api/auth/session')
+
+        const res3 = await fetch('http://localhost:3000/api/predict')
+        const predi = await res3.json()
+        return predi
     }
 
 
-    async fetchLastPredi() {
-        try {
-            if (this.props.props.sess && this.props.props.user) {
-                
-                const mySession = await fetch('http://localhost:3000/api/auth/session')
-                const res3 = await fetch('http://localhost:3000/api/predict')
-                const predi = await res3.json()
-                return predi
-            }
-            else {
-                Router.reload()
-
-            }
-        } catch (err) {
-            console.log('whaaaaaat useer')
-            Router.reload()
-        }
-    }
-
-    setYes = async () => {
+    async function setYes(props, predi) {
         //4th API REQUEST
 
         try {
@@ -84,26 +123,24 @@ export default class Answer extends React.Component {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    user: this.props.props.user,
-                    predi: this.state.predi,
+                    user: props.user,
+                    predi: predi,
                     answer: 'yes'
                 })
 
             }).then((response) => {
-                this.setState({
-                    answer: 'yes'
-                })
+                setAnswer('yes')
                 console.log(response)
 
             })
-            this.colorButton()
+            colorButton()
 
         } catch (err) {
             console.log(err)
         }
     }
 
-    setNo = async () => {
+    async function setNo(props, predi) {
         //4th API REQUEST
 
         try {
@@ -129,19 +166,17 @@ export default class Answer extends React.Component {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    user: this.props.props.user,
-                    predi: this.state.predi,
+                    user: props.user,
+                    predi: predi,
                     answer: 'no'
                 })
 
             }).then((response) => {
-                this.setState({
-                    answer: 'no'
-                })
+                setAnswer('no')
                 console.log(response)
 
             })
-            this.colorButton()
+            colorButton()
 
         } catch (err) {
             console.log(err)
@@ -150,36 +185,55 @@ export default class Answer extends React.Component {
 
 
 
-    colorButton() {
+    function colorButton() {
         document.getElementById('no').style.backgroundColor = 'blue'
         document.getElementById('yes').style.backgroundColor = 'blue'
     }
 
 
-    render() {
+    function render(predi, props, time) {
+
+
         return <div className={styles.button}>
 
 
-            Prediction ID is {this.state.predi.id}
-
-
-
+            <h1> {predi.name} </h1> 
+            <p>
+               <ul> Name : {props.user.name}</ul> 
+               {time/20*100 < 100 && predi.end == 0? <><Progress_bar bgcolor="red" progress={time/20*100}   height={30} /> </> : <></>}
+               
+            </p>
             <div className={styles.form}>
 
-                {this.state.predi.end == 0 ? <>
+                {predi.end == 0 && time < 20 ? <>
 
 
-                    <button id='yes' onClick={this.setYes.bind(this)} className={styles.yes} >Yes</button>
-                    <button id='no' onClick={this.setNo.bind(this)} className={styles.no} >No</button>
+                    <button id='yes' onClick={() => setYes(props, predi)} className={styles.yes} >Yes</button>
+                    <button id='no' onClick={() => setNo(props, predi)} className={styles.no} >No</button>
 
 
 
-                </> : <> <h1>Prediction finished result was response {this.state.predi.end}</h1></>}
+                </> : <>
+
+
+                    {predi.end == 0 ? <> Too late ... its 20 seconds for vote.</> : <>      <h2> Prediction finished result was response {predi.end} </h2></>}
+
+
+
+                </>}
             </div>
 
         </div>
     }
+
+    return render(predi, props, time)
+
+
+
 }
+
+
+
 
 
 

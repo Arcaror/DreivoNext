@@ -7,7 +7,7 @@ const sequelize = require('../../../database/Database.js')
 export default async function handler(req, res) {
     try {
         const predi = await Prediction.create({ name : "Dreivo win the next game?" })
-        res.status(400).json(
+        res.json(
             {
 
 
