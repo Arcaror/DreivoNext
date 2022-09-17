@@ -1,0 +1,41 @@
+.ranking {
+
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    background-color: black;
+    height: 100%;
+    font-size: 2em;
+    padding: 2em;
+    color: rgb(148, 10, 5);
+}
+
+.ranking th {
+
+
+    background-color: rgb(204, 203, 203);
+
+
+    color: rgb(3, 0, 65);
+    height: 2em;
+    width: 15em;
+
+    border-color:rgb(148, 10, 5);
+    border-style: solid;
+    border-radius: 0.5em;
+    border-width: 0.08em;
+
+
+}
+
+.ranking tr {
+    color: black;
+    display: flex;
+    justify-content: center;
+    
+
+
+    
+
+    
+}

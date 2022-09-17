@@ -1,0 +1,21 @@
+.Home {
+
+    display: flex;
+    background-color: black;
+
+    flex-direction: column;
+
+
+
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+
+
+    font-family: 'Bangers', cursive;
+    align-items: center;
+}
+.Home h3 {
+    font-size: 5em;
+
+}

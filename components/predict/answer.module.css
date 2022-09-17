@@ -1,0 +1,69 @@
+.button{
+    margin-bottom: 10em;
+    color: gray;
+    display: flex;
+    flex-direction: column;
+    height: -10em;
+
+}
+.button button {
+
+    font-size: 10em;
+
+
+    text-decoration: none;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+    font-style: oblique;
+
+
+
+}
+.button p {
+    font-size: 3em;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+.button h2 {
+    font-size: 3em;
+    font-family: 'Courier New', Courier, monospace
+}
+
+.button h1 {
+    font-size: 8em;
+    color: rgb(64, 120, 224);
+    height: 0.1em;
+
+}
+
+.yes {
+    background-color: green;
+    position: relative;
+    right: 1em;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.no {
+    background-color: red;
+    position: relative;
+
+    align-items: center;
+    justify-content: center;
+    left: 1em;
+
+
+
+}
+
+.response {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 1em;
+    width: 20em;
+    position: sticky;
+
+}

@@ -1,0 +1,15 @@
+DELETE FROM sessions;
+DELETE FROM accounts;
+DELETE FROM users;
+DELETE FROM verification_tokens;
+ALTER TABLE accounts MODIFY COLUMN id_token varchar(1200);
+
+ALTER TABLE `users` ADD COLUMN `winstreak` INT NULL DEFAULT 0;
+ALTER TABLE `users` ADD COLUMN `isAdmin` INT NULL DEFAULT NULL;
+
+INSERT INTO `predictor`.`predictions` (`id`, `name`, `end`, `createdAt`, `updatedAt`) VALUES ('1', 'first', '0', '2022-08-18 00:56:36', '2022-08-18 00:56:36');
+
+ALTER TABLE `users`ADD COLUMN `createdAt` DATETIME NULL;
+ALTER TABLE `users`ADD COLUMN `updatedAt` DATETIME NULL;
+
+ALTER TABLE `predictions` CHANGE COLUMN `end` `end` INT NULL DEFAULT 0 ;
