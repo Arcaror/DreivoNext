@@ -3,23 +3,53 @@ import Prediction from '../../../model/Predictions'
 
 const sequelize = require('../../../database/Database.js')
 
+import { unstable_getServerSession } from "next-auth/next"
+import { authOptions } from "../auth/[...nextauth]"
 
 export default async function handler(req, res) {
     try {
-        const predi = await Prediction.create({ name : "Dreivo win the next game?" })
-        res.json(
-            {
+        const session = await unstable_getServerSession(req, res, authOptions)
 
 
-                created: 1
-            })
+        const user = await sequelize.models.users.findOne( {
 
-    } catch {
+      
+            where: {
+                email: session.user.email
+          }
+
+    })
+
+
+
+
+        if (user.dataValues.isAdmin == 1) {
+
+            const predi = await Prediction.create({ name: "Dreivo win the next game?" })
+            res.json(
+                {
+
+
+                    created: 1
+                })
+
+        } else {
+
+            res.status(400).json(
+                {
+
+
+                    created: 0
+                })
+
+        }
+    }
+    catch (err) {
         res.status(400).json(
             {
 
 
-                created: 0
+                created: 'error'
             })
 
     }

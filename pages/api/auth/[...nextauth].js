@@ -10,26 +10,15 @@ import sequelize from '/database/Database'
 sequelize.sync()
 
 
-export default NextAuth({
-  // Configure one or more authentication providers
-  providers: [
-    // GoogleProvider({
-    //   clientId: process.env.GOOGLE_ID,
-    //   clientSecret: process.env.GOOGLE_SECRET,
-    //   authorization: {
-    //     params: {
-    //       prompt: "consent",
-    //       access_type: "offline",
-    //       response_type: "code"
-    //     }
-    //   }
+export const authOptions = {
 
-    // })
+  providers: [
     TwitchProvider({
       clientId: process.env.TWITCH_CLIENT_ID,
       clientSecret: process.env.TWITCH_CLIENT_SECRET
     })
   ],
+  secret: process.env.NEXTAUTH_SECRET,
   adapter: SequelizeAdapter(sequelize, {
     models: {
       users: sequelize.define("users", {
@@ -48,7 +37,7 @@ export default NextAuth({
         prediId: DataTypes.STRING
 
       }),
-      winners: sequelize.define("winners",{
+      winners: sequelize.define("winners", {
         userId: DataTypes.STRING,
         name: DataTypes.STRING,
         winstreak: DataTypes.INTEGER
@@ -63,7 +52,7 @@ export default NextAuth({
 
     async redirect({ url, baseUrl }) {
 
-   
+
       // Allows relative callback URLs
       if (url.startsWith("/")) return `${baseUrl}${url}`
 
@@ -116,4 +105,6 @@ export default NextAuth({
   secret: process.env.JWT_OP_SECRET
 
 }
-)
+
+
+export default NextAuth(authOptions)

@@ -109,8 +109,8 @@
         display: flex;
         align-items: center;
         flex-direction: column;
-        position: sticky;
-        background-color: #9147ff;
+        position: absolute;
+        background-color: #cacaca;
         width: 6em;
         height: 5em;
         font-size: x-large;
@@ -123,7 +123,7 @@
         position: absolute;
         top: 4em;
         align-self: center;
-        background-color: rgb(156, 156, 156);
+        background-color: #9147ff;
 
     }
 
