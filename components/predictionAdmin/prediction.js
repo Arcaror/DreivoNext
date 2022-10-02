@@ -17,10 +17,10 @@ export default function Prediction(props) {
         fetch('/api/socketio').finally(() => {
             socket.on('connect', () => {
                 console.log('connect')
-                
-     fetch('http://localhost:3000/api/auth').then(()=>{
-        console.log("API AUTH ---------------")
-     })
+
+                fetch('http://localhost:3000/api/auth').then(() => {
+                    console.log("API AUTH ---------------")
+                })
 
                 socket.emit('admin')
             })
@@ -51,7 +51,7 @@ export default function Prediction(props) {
 
     async function fetchLastPredi() {
 
-         await fetch('http://localhost:3000/api/auth/session')
+        await fetch('http://localhost:3000/api/auth/session')
         const res3 = await fetch('http://localhost:3000/api/predict')
         const predi = await res3.json()
 
@@ -77,9 +77,9 @@ export default function Prediction(props) {
 
     async function endYes(predi) {
         try {
-            fetch('http://localhost:3000/api/auth').then(()=>{
+            fetch('http://localhost:3000/api/auth').then(() => {
                 console.log("API AUTH ---------------")
-             })
+            })
             await fetch('http://localhost:3000/api/predict/endYes/' + predi)
 
             fetchLastPredi().then((response) => {
@@ -158,14 +158,13 @@ export default function Prediction(props) {
 
 
 
-            <h2> Prediction ID is : {predi} and you say response : {answer}
-            </h2>
+            <h2> Prediction ID is : {predi} <br></br> Response : {answer == 0 ? <> ?</> : <> {answer == 1 ? <>YES</> : <>NO</>} </>} </h2>
             <div className={styles.buttonContainer}>
                 <button className={styles.create} onClick={() => create()}> Create prediction </button>
                 <div className={styles.yesNo}>
-                <button className={styles.yes} onClick={() => endYes(predi)}>set result YES </button>
-                <button className={styles.no} onClick={() => endNo(predi)}>set result  NO </button>
-</div>
+                    <button className={styles.yes} onClick={() => endYes(predi)}>set result YES </button>
+                    <button className={styles.no} onClick={() => endNo(predi)}>set result  NO </button>
+                </div>
             </div>
 
 

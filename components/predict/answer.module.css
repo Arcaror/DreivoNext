@@ -8,7 +8,7 @@
 }
 .button button {
 
-    font-size: 10em;
+    font-size: 3em;
 
 
     text-decoration: none;
@@ -18,6 +18,19 @@
 
 
 
+}
+.form{
+    position: absolute;
+    width: 100%;
+    left: 0em;
+    text-align: center;
+    font-size: 1.2em;
+    bottom: 2em;
+    color: green;
+
+}
+.form ul{
+    color: orange;
 }
 .button p {
     font-size: 3em;
@@ -30,33 +43,44 @@
 }
 
 .button h1 {
+    position: relative;
     font-size: 8em;
     color: rgb(64, 120, 224);
     height: 0.1em;
-
+    align-items: center;
 }
-
 .yes {
     background-color: green;
+    width: 3em;
+    height: 2em;
     position: relative;
     right: 1em;
     align-items: center;
     justify-content: center;
+    margin-bottom: 1em;
 
 }
 
 .no {
     background-color: red;
     position: relative;
-
+    width: 3em;
+    height: 2em;
     align-items: center;
     justify-content: center;
     left: 1em;
+    margin-bottom: 1em;
 
 
 
 }
-
+.button .prog{
+    position: relative;
+    width: 80%;
+    align-items: center;
+    bottom: 3em;
+    margin:3em;
+}
 .response {
     display: flex;
     justify-content: center;
@@ -65,5 +89,38 @@
     font-size: 1em;
     width: 20em;
     position: sticky;
+
+}
+@media screen and (max-width: 50em) {
+    .form ul{
+        position: absolute;
+        top:1px;
+        color: orange;
+    }
+    .button .prog{
+        position: absolute;
+        width: 80%;
+        align-items: center;
+        bottom: 40em;
+    }
+}
+@media screen and (max-width: 80em) {
+    .form ul{
+        position: absolute;
+        top:1px;
+        color: orange;
+    }
+    .button .prog{
+        position: absolute;
+        width: 80%;
+        align-items: center;
+        bottom: 10em;
+    }
+}
+@media screen and (max-height: 27em) {
+
+    .form {
+        display: none;
+    }
 
 }

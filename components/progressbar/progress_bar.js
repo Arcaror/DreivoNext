@@ -4,7 +4,7 @@ import React from 'react'
 const Progress_bar = ({bgcolor,progress,height}) => {
      
     const Parentdiv = {
-        height: '1em',
+        height: '3em',
         width: '100%',
         backgroundColor: 'whitesmoke',
         borderRadius: 40,

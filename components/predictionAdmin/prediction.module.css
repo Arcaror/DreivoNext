@@ -11,6 +11,9 @@
 }
 .container button {
 
+    display: relative;
+    align-items: center;
+    margin-left: 1em;
     font-family: 'Bangers', cursive;
 
     width: 100%;
@@ -20,13 +23,12 @@
 .buttonContainer {
     font-family: 'Bangers', cursive;
 
-    position: relative;
     display: flex;
     flex-direction: column;
     align-content: center;
     background-color: aquamarine;
-    height: 15em;
-    width: 40em;
+    height: 100%;
+    width: 100%;
 }
 .yesNo{
     background-color: antiquewhite;

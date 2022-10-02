@@ -202,17 +202,18 @@ export default function Answer({ props }) {
 
         return <div className={styles.button}>
 
-{props.user.name == undefined ? <> {Router.reload()}</> : <></> }
+            {typeof props.user.name == 'undefined' ? <> {Router.reload()}</> : <></>}
 
-            <h1> {predi.name} </h1> 
-            <p>
-               <ul> Name : {props.user.name}</ul> 
-               {time/20*100 < 100 && predi.end == 0 && time != '' ? <><Progress_bar bgcolor="red" progress={time/20*100}   height={30} /> </> : <></>}
-               
-            </p>
+
+            <h1> {predi.name} </h1>
+            <div className={styles.prog}> {time / 20 * 100 < 100 && predi.end == 0 && time != '' ? <><Progress_bar bgcolor="red" progress={time / 20 * 100} height={140} /> </> : <></>}
+            </div>
+
             <div className={styles.form}>
 
-                {predi.end == 0 && time < 20  && time != ''? <>
+                <ul> Name : {props.user.name}</ul>
+
+                {predi.end == 0 && time < 20 && time != '' ? <>
 
 
                     <button id='yes' onClick={() => setYes(props)} className={styles.yes} >Yes</button>
