@@ -20,6 +20,7 @@ export default function Header() {
 
         <div className={styles.container}>
 
+            
             <div className={styles.link}> <a href='/winners'>Winners</a> <a href='/ranking'>Ranking</a> <a href='/admin'>Admin</a></div>
             <a className={styles.title} href="/">Predictor application</a>
 
