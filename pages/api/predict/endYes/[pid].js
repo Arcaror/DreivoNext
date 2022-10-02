@@ -1,7 +1,7 @@
 
 const sequelize = require('../../../../database/Database')
 import { unstable_getServerSession } from "next-auth/next"
-import { authOptions } from "../auth/[...nextauth]"
+import { authOptions } from "../../auth/[...nextauth]"
 
 export default async function handler(req, res) {
 
