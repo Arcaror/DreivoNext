@@ -10,8 +10,7 @@ export default async function handler(req, res) {
         const userId = req.body 
 
         console.log(`User is + ${userId}`)
-         fetch('http://localhost:3000/api/auth/session')
-.t
+
             const user = await sequelize.models.users.findOne( {
 
       
@@ -35,7 +34,7 @@ export default async function handler(req, res) {
     }catch(err){
         console.log(`\u001b[1;31m api user error ${err}`)
         res.status(400).json({
-            response : {name : 'error'}
+            response : {}
         })
     }
 

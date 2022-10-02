@@ -24,10 +24,10 @@ export default function Header() {
             <a className={styles.title} href="/">Predictor application</a>
 
 
-            {!session && (<>
+            {!session && (<div className={styles.login}>
                 <Login></Login>
 
-            </>)}
+            </div>)}
             {session && (<>
                 <p> You are connected {session.status}</p>
                 <a className={styles.signOut} onClick={() => signOut()} href='/'>Sign out</a>
