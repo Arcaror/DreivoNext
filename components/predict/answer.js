@@ -202,7 +202,7 @@ export default function Answer({ props }) {
 
         return <div className={styles.button}>
 
-{props.notFound == true ? <> {Router.reload()}</> : <></> }
+{props.user.name == '' ? <> {Router.reload()}</> : <></> }
 
             <h1> {predi.name} </h1> 
             <p>

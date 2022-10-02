@@ -7,24 +7,35 @@ export default async function handler(req, res) {
 
 
     try {
-        var user = req.body 
+        const userId = req.body 
 
-        console.log(`User is + ${user}`)
-
-    res.status(400).json({
-        response: await sequelize.models.users.findOne( {
+        console.log(`User is + ${userId}`)
+         fetch('http://localhost:3000/api/auth/session')
+.t
+            const user = await sequelize.models.users.findOne( {
 
       
-            where: {
-                id: user
-          }
+                where: {
+                    id: userId
+              }
+    
+        })
+        
 
-    })
-    })
+
+            res.status(400).json({
+                response: { id : user.dataValues.id, name: user.dataValues.name, winstreak: user.dataValues.winstreak, isAdmin: user.dataValues.isAdmin }
+             })
+            
+        
+
+       
+
+
     }catch(err){
         console.log(`\u001b[1;31m api user error ${err}`)
         res.status(400).json({
-            response : err
+            response : {name : 'error'}
         })
     }
 
