@@ -86,6 +86,7 @@ export async function getServerSideProps(context) {
     try {
 
 
+        await fetch('http://localhost:3000/api/auth')
         //FIRST API REQUEST
         const res1 = await fetch('http://localhost:3000/api/session', {
             method: 'POST',

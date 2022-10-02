@@ -7,6 +7,7 @@ const Predictions = require('/model/Predictions')
 import sequelize from '/database/Database'
 
 
+sequelize.sync()
 
 
 export default NextAuth({
@@ -62,8 +63,7 @@ export default NextAuth({
 
     async redirect({ url, baseUrl }) {
 
-
-
+   
       // Allows relative callback URLs
       if (url.startsWith("/")) return `${baseUrl}${url}`
 

@@ -1,8 +1,8 @@
 .Home {
 
     display: flex;
-    background-color: black;
-
+    background-color: bLack;
+    color: white;
     flex-direction: column;
 
 

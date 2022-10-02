@@ -4,7 +4,7 @@ export default async function handler(req, res) {
 
     try {
         var predictId = req.body
-
+        await fetch('http://localhost:3000/api/auth/session')
         const winners = await sequelize.models.participations.findAll({
 
 
@@ -24,13 +24,25 @@ export default async function handler(req, res) {
                 }
             })
             const guy = await sequelize.models.users.findOne({
-                where:{
+                where: {
                     id: participation.userId
                 }
             })
 
-            if (guy.dataValues.winstreak == 6){
-                await sequelize.models.winners.create({userId: guy.id, name: guy.name, winstreak: guy.winstreak})
+            if (guy.dataValues.winstreak == 5 || guy.dataValues.winstreak == 6 || guy.dataValues.winstreak == 10) {
+                await sequelize.models.winners.create({ userId: guy.id, name: guy.name, winstreak: guy.winstreak })
+                if (guy.dataValues.winstreak == 10) {
+                    const upd = await sequelize.models.users.findOne(
+                        {
+                            where: { id: guy.id }
+                        }
+                    )
+                    upd.set({
+                        winstreak: "0"
+                    })
+
+                    upd.save()
+                }
             }
         })
 
@@ -46,11 +58,11 @@ export default async function handler(req, res) {
         loosers.forEach(async (participation) => {
             await sequelize.models.users.update({
                 'winstreak': 0
-            },{
+            }, {
                 where: {
                     id: participation.userId
                 }
-        })
+            })
         })
 
         res.json(

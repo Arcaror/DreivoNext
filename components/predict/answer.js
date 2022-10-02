@@ -31,6 +31,7 @@ export default function Answer({ props }) {
                 socket.emit('hello')
                 socket.emit('ping')
                 socket.emit('hello')
+
             })
 
             socket.on('hello', data => {
@@ -97,9 +98,11 @@ export default function Answer({ props }) {
     }
 
 
-    async function setYes(props, predi) {
+    async function setYes(props) {
         //4th API REQUEST
-
+        await fetch('http://localhost:3000/api/auth/session')
+        const res3 = await fetch('http://localhost:3000/api/predict')
+        const predi = await res3.json()
         try {
 
             // //Third API REQUEST
@@ -124,7 +127,7 @@ export default function Answer({ props }) {
                 },
                 body: JSON.stringify({
                     user: props.user,
-                    predi: predi,
+                    predi: predi.response,
                     answer: 'yes'
                 })
 
@@ -140,9 +143,12 @@ export default function Answer({ props }) {
         }
     }
 
-    async function setNo(props, predi) {
+    async function setNo(props) {
         //4th API REQUEST
+        await fetch('http://localhost:3000/api/auth/session')
 
+        const res3 = await fetch('http://localhost:3000/api/predict')
+        const predi = await res3.json()
         try {
 
             // //Third API REQUEST
@@ -167,7 +173,7 @@ export default function Answer({ props }) {
                 },
                 body: JSON.stringify({
                     user: props.user,
-                    predi: predi,
+                    predi: predi.response,
                     answer: 'no'
                 })
 
@@ -196,20 +202,21 @@ export default function Answer({ props }) {
 
         return <div className={styles.button}>
 
+{props.notFound == true ? <> {Router.reload()}</> : <></> }
 
             <h1> {predi.name} </h1> 
             <p>
                <ul> Name : {props.user.name}</ul> 
-               {time/20*100 < 100 && predi.end == 0? <><Progress_bar bgcolor="red" progress={time/20*100}   height={30} /> </> : <></>}
+               {time/20*100 < 100 && predi.end == 0 && time != '' ? <><Progress_bar bgcolor="red" progress={time/20*100}   height={30} /> </> : <></>}
                
             </p>
             <div className={styles.form}>
 
-                {predi.end == 0 && time < 20 ? <>
+                {predi.end == 0 && time < 20  && time != ''? <>
 
 
-                    <button id='yes' onClick={() => setYes(props, predi)} className={styles.yes} >Yes</button>
-                    <button id='no' onClick={() => setNo(props, predi)} className={styles.no} >No</button>
+                    <button id='yes' onClick={() => setYes(props)} className={styles.yes} >Yes</button>
+                    <button id='no' onClick={() => setNo(props)} className={styles.no} >No</button>
 
 
 

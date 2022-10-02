@@ -9,7 +9,6 @@ import { socket } from '../predict/answer'
 
 export default function Prediction(props) {
 
-
     const [predi, setPredi] = useState('');
     const [answer, setAnswer] = useState('');
 
@@ -18,6 +17,10 @@ export default function Prediction(props) {
         fetch('/api/socketio').finally(() => {
             socket.on('connect', () => {
                 console.log('connect')
+                
+     fetch('http://localhost:3000/api/auth').then(()=>{
+        console.log("API AUTH ---------------")
+     })
 
                 socket.emit('admin')
             })
@@ -48,7 +51,7 @@ export default function Prediction(props) {
 
     async function fetchLastPredi() {
 
-        const mySession = await fetch('http://localhost:3000/api/auth/session')
+         await fetch('http://localhost:3000/api/auth/session')
         const res3 = await fetch('http://localhost:3000/api/predict')
         const predi = await res3.json()
 
@@ -74,6 +77,9 @@ export default function Prediction(props) {
 
     async function endYes(predi) {
         try {
+            fetch('http://localhost:3000/api/auth').then(()=>{
+                console.log("API AUTH ---------------")
+             })
             await fetch('http://localhost:3000/api/predict/endYes/' + predi)
 
             fetchLastPredi().then((response) => {

@@ -71,8 +71,7 @@ export default function TableRanking() {
                         <tr> {user.name}</tr></th><th> <tr>
                             {user.winstreak}
                         </tr></th>
-                        <th><tr> {moment(user.updatedAt).format('llll')}
-                        </tr></th>
+                    
 
                     </table>
                 </div>

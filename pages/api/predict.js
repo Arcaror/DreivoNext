@@ -3,7 +3,7 @@ const sequelize = require('../../database/Database')
 export default async function handler(req, res) {
 
     try {
-
+        await fetch('http://localhost:3000/api/auth/session')
         res.json(
             {
 
