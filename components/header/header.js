@@ -3,6 +3,8 @@ import styles from "./header.module.css"
 import react from "react"
 import { useSession, signIn, signOut } from "next-auth/react"
 import Head from 'next/head'
+import Link from 'next/link'
+
 
 function onClickTwitch() {
     console.log("twitch")
@@ -12,34 +14,48 @@ export default function Header() {
 
     const { data: session } = useSession()
 
-    return (<>        <Head>
-        <link rel="preconnect" href="https://fonts.googleapis.com"></link>
-        <link rel="preconnect" href="https://fonts.gstatic.com"></link>
-        <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet"></link>
-    </Head>
+    return (<>
+        <Head>
+            <>
+                <link rel="preconnect" href="https://fonts.googleapis.com"></link>
+                <link rel="preconnect" href="https://fonts.gstatic.com"></link>
+                <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet"></link>
+            </>
+        </Head>
 
         <div className={styles.container}>
 
-        <a className={styles.title} href="/">Predictor application</a>
+            <Link href="/">
+                <a className={styles.title}>Predictor application</a>
+            </Link>
 
 
-            
-            <div className={styles.link}> <a href='/winners'>Winners</a> <a href='/ranking'>Ranking</a> <a href='/admin'>Admin</a>
 
-            
-            {!session && (<div className={styles.login}>
-                <Login></Login>
+            <div className={styles.link}>
+                <Link href="/winners">
+                    <a>Winners</a>
+                </Link>
+                <Link href="/ranking">
+                    <a>Ranking</a>
+                </Link>
+                <Link href="/admin">
+                    <a>Admin</a>
+                </Link>
 
-            </div>)}
-            {session && (<>
-                <a className={styles.connect}>You are connected {session.user.name}</a>
-                <a onClick={() => signOut()} href='/'>Sign out</a>
-            </>)}
+
+                {!session && (<div className={styles.login}>
+                    <Login></Login>
+
+                </div>)}
+                {session && (<>
+                    <a className={styles.connect}>You are connected {session.user.name}</a>
+                    <Link href="/"><a onClick={() => signOut()}>Sign out</a></Link>
+                </>)}
 
             </div>
 
 
- 
+
         </div>
     </>
     )

@@ -9,7 +9,7 @@ import { io } from 'socket.io-client'
 export const socket = io("http://localhost:3000")
 
 
-export default function tableWinners() {
+export default function TableWinners() {
 
     const [ranking, setRanking] = useState([]);
 
@@ -69,9 +69,11 @@ export default function tableWinners() {
             <h1>Winners</h1>
 
             {ranking.constructor == Array && ranking != [] ? (ranking.map((user) => {
-
-                return <div>
-                    <table><th><tr>
+                
+                return  <>
+                <div key={user.id}>
+               
+                    <table ><th><tr>
                         {user.name}</tr></th>
                         <th> <tr>
                             {user.winstreak}</tr>
@@ -79,7 +81,9 @@ export default function tableWinners() {
                         </tr></th>
 
                     </table>
+                  
                 </div>
+                </>
             })) : <>{Router.reload()}</>}
 
 

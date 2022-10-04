@@ -64,22 +64,26 @@ export default function TableRanking() {
         return <div className={styles.ranking}>
             <h1>Ranking</h1>
             {ranking.constructor == Array && ranking != [] ? (ranking.map((user) => {
+            
+                return     <>
 
-                return <div>
+                    <div key={user.id}>
 
-                    <table><th>
-                        <tr> {user.name}</tr></th><th> <tr>
-                            {user.winstreak}
-                        </tr></th>
-                    
+                        
+                            <table><th>
+                                <tr> {user.name}</tr></th><th> <tr>
+                                    {user.winstreak}
+                                </tr></th>
 
-                    </table>
-                </div>
+
+                            </table>
+                        </div>
+                    </>
             })) : <>{Router.reload()}</>}
 
 
-        </div>
-    }
+                </div>
+            }
     return render()
 }
 
