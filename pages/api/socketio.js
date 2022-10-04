@@ -23,7 +23,7 @@ const ioHandler = (req, res) => {
         socket.broadcast.emit('reloadRank')
       })
       socket.on('ping', msg => {
-        socket.emit('ping', 'pong ptdr')
+        socket.emit('ping', 'pong')
       })
     })
 
