@@ -13,7 +13,7 @@ export default function Answer({ props }) {
     const [predi, setPredi] = useState('');
     const [answer, setAnswer] = useState('');
     const [time, setTime] = useState('')
-
+    const [vote, setVote] = useState('')
     setInterval(() => {
         setTime(moment.utc().diff(predi.createdAt, 'seconds'))
 
@@ -71,8 +71,31 @@ export default function Answer({ props }) {
 
 
             try {
-                fetchLastPredi().then((response) => {
+                fetchLastPredi().then(async (response) => {
                     setPredi(response.response)
+                    const data2 = await fetch('http://localhost:3000/api/predict/vote', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            userId: props.user.id,
+                            prediId: response.response.id
+                        })
+
+
+                    }).then((response) => {
+
+                        response.json().then((json) => {
+                            try {
+                                setVote(json.response.response)
+                            } catch (err) {
+                                console.log(err)
+                            }
+                        })
+
+
+                    })
                 })
             } catch (err) {
                 Router.reload()
@@ -105,20 +128,6 @@ export default function Answer({ props }) {
         const predi = await res3.json()
         try {
 
-            // //Third API REQUEST
-            // const res3 = await fetch('http://localhost:3000/api/predict')
-
-            // const predi = await res3.json().then((response) => {
-
-
-            //     this.setState({
-            //         predi: response.response
-
-            //     })
-            //     console.log(predi)
-            // })
-            // console.log(predi)
-
 
             const data = await fetch('http://localhost:3000/api/predict/participate', {
                 method: 'POST',
@@ -131,9 +140,30 @@ export default function Answer({ props }) {
                     answer: 'yes'
                 })
 
-            }).then((response) => {
+            }).then(async (response) => {
                 setAnswer('yes')
-                console.log(response)
+                console.log('wtttttttttttf' + response)
+
+                const data2 = await fetch('http://localhost:3000/api/predict/vote', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        userId: props.user.id,
+                        prediId: predi.response.id
+                    })
+
+
+                }).then((response) => {
+                    response.json().then((json) => {
+                        setVote(json.response.response)
+
+                    })
+                })
+
+
+
 
             })
             colorButton()
@@ -177,9 +207,28 @@ export default function Answer({ props }) {
                     answer: 'no'
                 })
 
-            }).then((response) => {
+            }).then(async (response) => {
                 setAnswer('no')
                 console.log(response)
+
+                const data2 = await fetch('http://localhost:3000/api/predict/vote', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        userId: props.user.id,
+                        prediId: predi.response.id
+                    })
+
+
+                }).then((response) => {
+                    response.json().then((json) => {
+                        setVote(json.response.response)
+
+                    })
+                })
+
 
             })
             colorButton()
@@ -212,8 +261,9 @@ export default function Answer({ props }) {
             <div className={styles.form}>
 
                 <ul> Name : {props.user.name}</ul>
+                <ul> Vote : {vote}</ul>
 
-                {predi.end == 0 && time < 20 && time != '' ? <>
+                {time < 20 && time != '' ? <>
 
 
                     <button id='yes' onClick={() => setYes(props)} className={styles.yes} >Yes</button>
@@ -224,11 +274,23 @@ export default function Answer({ props }) {
                 </> : <>
 
 
-                    {predi.end == 0 ? <> Too late ... its 20 seconds for vote.</> : <>      <h2> Prediction finished result was response {predi.end} </h2></>}
-
-
+                    {vote == '' ? <> Too late ... its 20 seconds for vote.</> : <>
+                        Thank you for participation.
+                    </>}
 
                 </>}
+
+                {predi.end != 0 ? <>  
+                
+                {predi.end == 1 && vote == 'yes' || predi.end == 2 && vote == 'no'  ? <h2>You win</h2> : <><h2>You loose</h2></>}
+</> 
+                
+                : <> <h2>Wait for result...</h2></>}
+
+
+
+
+
             </div>
 
         </div>
