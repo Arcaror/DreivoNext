@@ -17,9 +17,9 @@
 .answer .info {
     position: fixed;
     width: 100vw;
-    bottom: 1vmax;
-    left: -20em;
-    font-size: 2vmax;
+    bottom: 2vmax;
+    left: -13em;
+    font-size: 3vmax;
     
 }
 .answer ul {
