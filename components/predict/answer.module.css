@@ -1,17 +1,50 @@
-.button{
+.answer {
+    display: flex;
     margin-bottom: 10em;
     color: gray;
-    display: flex;
     flex-direction: column;
     height: -10em;
 
 }
-.button button {
 
-    font-size: 3em;
+.answer .name {
+    position: fixed;
+    top: 0vw;
+    left: 0vw;
+    width: 100vw;
+    font-size: 5vmax;
+}
+.answer .info {
+    position: fixed;
+    width: 100vw;
+    bottom: 1vmax;
+    left: -20em;
+    font-size: 2vmax;
+    
+}
+.answer ul {
+    display: block;
+    list-style-type: disc;
+    color: orange;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 40px;
 
 
-    text-decoration: none;
+  }
+
+.answer .prediText{
+    font-size: 2vmax;
+    align-items: center;
+    bottom: 0vmax;
+}
+.answer button {
+
+    width: 20vw;
+    height: 10vw;
+    font-size: 2vw;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 
     font-style: oblique;
@@ -19,68 +52,63 @@
 
 
 }
-.form{
+
+.form {
     position: absolute;
-    width: 100%;
+    width: 100vw;
     left: 0em;
     text-align: center;
-    font-size: 1.2em;
+    font-size: 2vmax;
     bottom: 2em;
     color: green;
 
 }
-.form ul{
-    color: orange;
-}
-.button p {
+
+
+
+.answer p {
     font-size: 3em;
-    font-family:Arial, Helvetica, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
-.button h2 {
-    font-size: 3em;
+.answer h2 {
+
     font-family: 'Courier New', Courier, monospace
 }
 
-.button h1 {
+.answer h1 {
     position: relative;
-    font-size: 8em;
+
     color: rgb(64, 120, 224);
-    height: 0.1em;
     align-items: center;
 }
+
 .yes {
     background-color: green;
-    width: 3em;
-    height: 2em;
-    position: relative;
-    right: 1em;
     align-items: center;
     justify-content: center;
-    margin-bottom: 1em;
+
 
 }
 
 .no {
     background-color: red;
-    position: relative;
-    width: 3em;
-    height: 2em;
     align-items: center;
     justify-content: center;
-    left: 1em;
-    margin-bottom: 1em;
 
 
 
 }
-.button .prog{
-    position: relative;
-    width: 80%;
-    align-items: center;
-    bottom: 3em;
-    margin:3em;
+
+.answer .prog {
+    position: fixed;
+    top: 15vw;
+    left: 5vw;
+    width: 80vw;
+
+
 }
+
 .response {
     display: flex;
     justify-content: center;
@@ -91,36 +119,4 @@
     position: sticky;
 
 }
-@media screen and (max-width: 50em) {
-    .form ul{
-        position: absolute;
-        top:1px;
-        color: orange;
-    }
-    .button .prog{
-        position: absolute;
-        width: 80%;
-        align-items: center;
-        bottom: 40em;
-    }
-}
-@media screen and (max-width: 80em) {
-    .form ul{
-        position: absolute;
-        top:1px;
-        color: orange;
-    }
-    .button .prog{
-        position: absolute;
-        width: 80%;
-        align-items: center;
-        bottom: 10em;
-    }
-}
-@media screen and (max-height: 27em) {
 
-    .form {
-        display: none;
-    }
-
-}

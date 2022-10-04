@@ -20,20 +20,26 @@ export default function Header() {
 
         <div className={styles.container}>
 
+        <a className={styles.title} href="/">Predictor application</a>
+
+
             
-            <div className={styles.link}> <a href='/winners'>Winners</a> <a href='/ranking'>Ranking</a> <a href='/admin'>Admin</a></div>
-            <a className={styles.title} href="/">Predictor application</a>
+            <div className={styles.link}> <a href='/winners'>Winners</a> <a href='/ranking'>Ranking</a> <a href='/admin'>Admin</a>
 
-
+            
             {!session && (<div className={styles.login}>
                 <Login></Login>
 
             </div>)}
             {session && (<>
-                <p> You are connected {session.status}</p>
-                <a className={styles.signOut} onClick={() => signOut()} href='/'>Sign out</a>
+                <a className={styles.connect}>You are connected {session.user.name}</a>
+                <a onClick={() => signOut()} href='/'>Sign out</a>
             </>)}
 
+            </div>
+
+
+ 
         </div>
     </>
     )

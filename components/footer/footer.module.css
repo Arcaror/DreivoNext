@@ -21,13 +21,13 @@
 
 }
 
-@media screen and (max-width: 80em) {
+@media screen and (max-width: 80vh) {
 
     .container {
         display: none;
     }
 }
-@media screen and (max-height: 55em) {
+@media screen and (max-height: 55vh) {
 
     .container {
         display: none;

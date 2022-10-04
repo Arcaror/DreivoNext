@@ -249,19 +249,25 @@ export default function Answer({ props }) {
     function render(predi, props, time) {
 
 
-        return <div className={styles.button}>
+        return <div className={styles.answer}>
 
             {typeof props.user.name == 'undefined' ? <> {Router.reload()}</> : <></>}
 
 
-            <h1> {predi.name} </h1>
+            <div className={styles.name}>
+                <h1> {predi.name} </h1>
+            </div>
             <div className={styles.prog}> {time / 20 * 100 < 100 && predi.end == 0 && time != '' ? <><Progress_bar bgcolor="red" progress={time / 20 * 100} height={140} /> </> : <></>}
             </div>
 
             <div className={styles.form}>
 
-                <ul> Name : {props.user.name}</ul>
-                <ul> Vote : {vote}</ul>
+                <div className={styles.info}>
+                    <ul> Name : {props.user.name} </ul>
+                    <ul> Vote : {vote}</ul>
+
+
+                </div>
 
                 {time < 20 && time != '' ? <>
 
@@ -273,19 +279,25 @@ export default function Answer({ props }) {
 
                 </> : <>
 
-
-                    {vote == '' ? <> Too late ... its 20 seconds for vote.</> : <>
-                        Thank you for participation.
-                    </>}
+                    <div className={styles.prediText}>
+                        {vote == '' ? <> Too late ... its 20 seconds for vote.</> : <>
+                            Thank you for participation.
+                        </>}  </div>
 
                 </>}
 
-                {predi.end != 0 ? <>  
-                
-                {predi.end == 1 && vote == 'yes' || predi.end == 2 && vote == 'no'  ? <h2>You win</h2> : <><h2>You loose</h2></>}
-</> 
-                
-                : <> <h2>Wait for result...</h2></>}
+                {predi.end != 0 ? <>
+                    <div className={styles.prediText}>
+
+                        {predi.end == 1 && vote == 'yes' || predi.end == 2 && vote == 'no' ? <h2>You win</h2> : <><h2>You loose</h2></>}
+                    </div>
+                </>
+
+                    : <>
+                        <div className={styles.prediText}>
+                            <h2>Wait for result...</h2>
+                        </div>
+                    </>}
 
 
 

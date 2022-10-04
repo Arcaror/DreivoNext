@@ -21,6 +21,12 @@
 
     }
 
+    .container .connect{
+        background-color: #9147ff;
+        position: fixed;
+        right: 0px;
+        border-style: dashed;
+    }
     .container .link {
 
         position: absolute;
@@ -34,6 +40,7 @@
         color: white;
         font-size: 2em;
         padding-left: 3em;
+        z-index: 1;
     }
 
     .container .link a {
