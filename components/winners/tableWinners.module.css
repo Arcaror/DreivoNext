@@ -28,6 +28,10 @@
 
 }
 
+.ranking .five th{
+    border-color: rgb(132, 9, 247);
+    background-color: cornflowerblue;
+}
 .ranking tr {
     color: black;
     display: flex;

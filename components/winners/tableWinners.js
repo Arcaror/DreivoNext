@@ -67,22 +67,40 @@ export default function TableWinners() {
         return <div className={styles.ranking}>
 
             <h1>Winners</h1>
+            <h5>Blue guys can unlock the first reward by Twitch subscription on DreivoHS channel, type "Unlock me" in Twitch chat.</h5>
 
             {ranking.constructor == Array && ranking != [] ? (ranking.map((user) => {
-                
-                return  <>
-                <div key={user.id}>
-               
-                    <table ><th><tr>
-                        {user.name}</tr></th>
-                        <th> <tr>
-                            {user.winstreak}</tr>
-                        </th> <th><tr>  {moment(user.updatedAt).format('llll')}
-                        </tr></th>
 
-                    </table>
-                  
-                </div>
+                return <>
+                    <div key={user.id}>
+
+
+                        {user.winstreak == 5 ? <>
+
+                            <div className={styles.five}>
+                                <table ><th><tr>
+                                    {user.name}</tr></th>
+                                    <th> <tr>
+                                        {user.winstreak}</tr>
+                                    </th> <th><tr>  {moment(user.updatedAt).format('llll')}
+                                    </tr></th>
+
+                                </table>
+                            </div>
+                        </> :
+
+                            <table ><th><tr>
+                                {user.name}</tr></th>
+                                <th> <tr>
+                                    {user.winstreak}</tr>
+                                </th> <th><tr>  {moment(user.updatedAt).format('llll')}
+                                </tr></th>
+
+                            </table>
+
+                        }
+
+                    </div>
                 </>
             })) : <>{Router.reload()}</>}
 

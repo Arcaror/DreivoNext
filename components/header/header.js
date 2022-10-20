@@ -25,13 +25,16 @@ export default function Header() {
 
         <div className={styles.container}>
 
-            <Link href="/">
+            {/* <Link href="/">
                 <a className={styles.title}>Predictor application</a>
-            </Link>
+            </Link> */}
 
 
 
             <div className={styles.link}>
+            <Link href="/">
+                    <a>Home</a>
+                </Link>
                 <Link href="/winners">
                     <a>Winners</a>
                 </Link>

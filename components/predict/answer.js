@@ -88,7 +88,10 @@ export default function Answer({ props }) {
 
                         response.json().then((json) => {
                             try {
-                                setVote(json.response.response)
+                                if (json.response != null) {
+
+                                    setVote(json.response.response)
+                                }
                             } catch (err) {
                                 console.log(err)
                             }
@@ -122,7 +125,7 @@ export default function Answer({ props }) {
 
 
     async function setYes(props) {
-        //4th API REQUEST
+
         await fetch('http://localhost:3000/api/auth/session')
         const res3 = await fetch('http://localhost:3000/api/predict')
         const predi = await res3.json()
@@ -156,14 +159,13 @@ export default function Answer({ props }) {
 
 
                 }).then((response) => {
-                    response.json().then((json) => {
-                        setVote(json.response.response)
 
+                    response.json().then((json) => {
+                        if (json.response != null) {
+                            setVote(json.response.response)
+                        }
                     })
                 })
-
-
-
 
             })
             colorButton()
@@ -174,27 +176,12 @@ export default function Answer({ props }) {
     }
 
     async function setNo(props) {
-        //4th API REQUEST
+
         await fetch('http://localhost:3000/api/auth/session')
 
         const res3 = await fetch('http://localhost:3000/api/predict')
         const predi = await res3.json()
         try {
-
-            // //Third API REQUEST
-            // const res3 = await fetch('http://localhost:3000/api/predict')
-
-            // const predi = await res3.json().then((response) => {
-
-
-            //     this.setState({
-            //         predi: response.response
-
-            //     })
-            //     console.log(predi)
-            // })
-            // console.log(predi)
-
 
             const data = await fetch('http://localhost:3000/api/predict/participate', {
                 method: 'POST',
@@ -224,8 +211,10 @@ export default function Answer({ props }) {
 
                 }).then((response) => {
                     response.json().then((json) => {
-                        setVote(json.response.response)
 
+                        if (json.response != null) {
+                            setVote(json.response.response)
+                        }
                     })
                 })
 
@@ -241,8 +230,8 @@ export default function Answer({ props }) {
 
 
     function colorButton() {
-        document.getElementById('no').style.backgroundColor = 'blue'
-        document.getElementById('yes').style.backgroundColor = 'blue'
+        // document.getElementById('no').style.backgroundColor = 'blue'
+        // document.getElementById('yes').style.backgroundColor = 'blue'
     }
 
 
@@ -257,31 +246,30 @@ export default function Answer({ props }) {
             <div className={styles.name}>
                 <h1> {predi.name} </h1>
             </div>
-            <div className={styles.prog}> {time / 20 * 100 < 100 && predi.end == 0 && time != '' ? <><Progress_bar bgcolor="red" progress={time / 20 * 100} height={140} /> </> : <></>}
+            <div className={styles.prog}> {time / 20 * 100 < 100 && predi.end == 0 && time != '' ? <><Progress_bar  progress={time / 20 * 100} height={140} /> </> : <></>}
             </div>
 
             <div className={styles.form}>
 
                 <div className={styles.info}>
-                    <ul> Name : {props.user.name} </ul>
-                    <ul> Vote : {vote}</ul>
-
-
+                    Name : {props.user.name} <br />
+                    Score : {props.user.winstreak} <br />
+                    Vote : {vote}
                 </div>
 
                 {time < 20 && time != '' ? <>
 
-
-                    <button id='yes' onClick={() => setYes(props)} className={styles.yes} >Yes</button>
-                    <button id='no' onClick={() => setNo(props)} className={styles.no} >No</button>
-
+                    <div className={styles.buttonContainer}>
+                        <button id='yes' onClick={() => setYes(props)} className={styles.yes} >Yes</button>
+                        <button id='no' onClick={() => setNo(props)} className={styles.no} >No</button>
+                    </div>
 
 
                 </> : <>
 
                     <div className={styles.prediText}>
-                        {vote == '' ? <> Too late ... its 20 seconds for vote.</> : <>
-                            Thank you for participation.
+                        {vote == '' ? <> Too late ... there is 20 seconds for vote.</> : <>
+                            Thank you for your participation.
                         </>}  </div>
 
                 </>}
@@ -289,7 +277,9 @@ export default function Answer({ props }) {
                 {predi.end != 0 ? <>
                     <div className={styles.prediText}>
 
-                        {predi.end == 1 && vote == 'yes' || predi.end == 2 && vote == 'no' ? <h2>You win</h2> : <><h2>You loose</h2></>}
+                        {predi.end == 1 && vote == 'yes' || predi.end == 2 && vote == 'no' ? <>You win</> :
+                            <>
+                                You loose</>}
                     </div>
                 </>
 

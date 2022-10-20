@@ -14,14 +14,21 @@
     width: 100vw;
     font-size: 5vmax;
 }
+
 .answer .info {
     position: fixed;
-    width: 100vw;
-    bottom: 2vmax;
-    left: -13em;
-    font-size: 3vmax;
-    
+    width: 10em;
+    height: 2.5em;
+    bottom: 5vmax;
+    left: 1em;
+    font-size: 2vmax;
+    border-style: dashed;
+    border-width: 0.2em;
+    padding: 1em;
+    border-color: rgb(109, 23, 16);
+    color: rgb(255, 153, 0)
 }
+
 .answer ul {
     display: block;
     list-style-type: disc;
@@ -33,15 +40,26 @@
     padding-left: 40px;
 
 
-  }
-
-.answer .prediText{
-    font-size: 2vmax;
-    align-items: center;
-    bottom: 0vmax;
 }
+
+.answer .prediText {
+    position: sticky;
+    display: block;
+    width: 20vw;
+    left : 75vw;
+    height: 20vh;
+    bottom: 15vh;
+
+    font-size: 2.5vmax;
+    right: 1px;
+    bottom: 0vmax;
+    font-family:'Courier New', Courier, monospace;
+}
+
 .answer button {
 
+    position: relative;
+    top: 6em;
     width: 20vw;
     height: 10vw;
     font-size: 2vw;
@@ -49,10 +67,26 @@
 
     font-style: oblique;
 
+    border-style: solid;
+    border-color: white;
 
 
 }
+.answer .buttonContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 1em;
+}
+.answer button:hover {background-color: yellow}
 
+.buttonContainer button:active, .buttonContainer button:focus{
+  background-color: rgb(255, 115, 0);
+
+
+
+}
 .form {
     position: absolute;
     width: 100vw;
@@ -60,7 +94,7 @@
     text-align: center;
     font-size: 2vmax;
     bottom: 2em;
-    color: green;
+    color: grey;
 
 }
 
@@ -79,12 +113,43 @@
 .answer h1 {
     position: relative;
 
-    color: rgb(64, 120, 224);
+
+    animation-name: textColor;
+    animation-duration: 20s;
+    animation-iteration-count: infinite;
     align-items: center;
 }
 
+@keyframes textColor {
+    0% {
+        color: #0d0404;
+
+    }
+
+    20% {
+        color: #370b05;
+
+    }
+
+    40% {
+        color: #e43606;        ;
+    }
+
+    60% {
+        color: #da5238;        ;
+    }
+
+    80% {
+        color: #dc5414;        ;
+    }
+    
+    100% {
+        color: #0d0404;
+    }
+}
+
 .yes {
-    background-color: green;
+    background-color: rgb(27, 192, 27);
     align-items: center;
     justify-content: center;
 
@@ -92,7 +157,7 @@
 }
 
 .no {
-    background-color: red;
+    background-color: rgb(189, 27, 27);
     align-items: center;
     justify-content: center;
 
@@ -102,8 +167,8 @@
 
 .answer .prog {
     position: fixed;
-    top: 15vw;
-    left: 5vw;
+    top: 22vmax;
+    left: 1vw;
     width: 80vw;
 
 
@@ -119,4 +184,3 @@
     position: sticky;
 
 }
-

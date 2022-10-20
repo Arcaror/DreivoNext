@@ -4,7 +4,7 @@ export default async function handler(req, res) {
 
     try {
         await fetch('http://localhost:3000/api/auth/session')
-        res.status(400).json(
+        res.json(
             {
 
 
