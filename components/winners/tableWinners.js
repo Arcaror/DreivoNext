@@ -51,12 +51,11 @@ export default function TableWinners() {
     async function fetchRanking() {
 
 
-        const session = await fetch('http://localhost:3000/api/auth/session')
         const res3 = await fetch('http://localhost:3000/api/winners')
         const ranking = await res3.json()
         setRanking(ranking)
 
-        return session, ranking
+        return  ranking
 
     }
 

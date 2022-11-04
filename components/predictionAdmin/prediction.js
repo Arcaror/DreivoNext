@@ -158,7 +158,7 @@ export default function Prediction(props) {
 
 
 
-            <h2> Prediction ID is : {predi} <br></br> Response : {answer == 0 ? <> ?</> : <> {answer == 1 ? <>YES</> : <>NO</>} </>} </h2>
+            <h2> Prediction ID is : {predi} <br></br> Response : {answer}</h2>
             <div className={styles.buttonContainer}>
                 <button className={styles.create} onClick={() => create()}> Create prediction </button>
                 <div className={styles.yesNo}>

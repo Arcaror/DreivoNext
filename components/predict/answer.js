@@ -1,6 +1,7 @@
 import styles from './answer.module.css'
 import Router from 'next/router'
 import React, { useState, useEffect } from 'react';
+import { useSession } from 'next-auth/react'
 
 const moment = require('moment')
 import { io } from 'socket.io-client'
@@ -8,19 +9,24 @@ import Progress_bar from '../progressbar/progress_bar';
 
 export const socket = io("http://localhost:3000")
 
-export default function Answer({ props }) {
+export default function Answer() {
+    const { data: session, status } = useSession()
 
     const [predi, setPredi] = useState('');
+    const [user, setUser] = useState('');
     const [answer, setAnswer] = useState('');
     const [time, setTime] = useState('')
     const [vote, setVote] = useState('')
+
+
+    //update time
     setInterval(() => {
         setTime(moment.utc().diff(predi.createdAt, 'seconds'))
 
     }, 200)
 
 
-
+    //event receiver for reload the page on websocket message "reload"
     useEffect(() => {
 
         fetch('/api/socketio').finally(() => {
@@ -28,38 +34,14 @@ export default function Answer({ props }) {
 
             socket.on('connect', () => {
                 console.log('connect')
-                socket.emit('hello')
-                socket.emit('ping')
-                socket.emit('hello')
-
             })
 
-            socket.on('hello', data => {
-                console.log('hello', data)
-            })
-
-            socket.on('ping', data => {
-                console.log('ping', data)
-            })
             socket.on('reload', data => {
                 setTimeout(() => {
                     Router.reload()
 
-                }, 1000)
+                }, 500)
             })
-
-            socket.on('a user connected', () => {
-                console.log('a user connected')
-            })
-
-
-
-
-            socket.on("reload", (data) => {
-                console.log("ws : on reload event ")
-                setPredi(data.predi)
-            })
-
 
 
             socket.on('disconnect', () => {
@@ -72,33 +54,91 @@ export default function Answer({ props }) {
 
             try {
                 fetchLastPredi().then(async (response) => {
+
                     setPredi(response.response)
-                    const data2 = await fetch('http://localhost:3000/api/predict/vote', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            userId: props.user.id,
-                            prediId: response.response.id
+
+                    if (user == '') {
+                        console.log(`User dont exist he is ${user}`)
+
+
+                        const user = await fetch('http://localhost:3000/api/user', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                userName: session.user.name
+                            })
+                        })
+                        const userJson = user.json().then(async user => {
+                            setUser(user.response)
+
+                            const data2 = await fetch('http://localhost:3000/api/predict/vote', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({
+                                    name: user.response.name,
+                                    prediId: response.response.id
+                                })
+
+
+                            }).then((response) => {
+
+                                response.json().then((json) => {
+                                    try {
+                                        if (json.response != null) {
+
+                                            setVote(json.response.response)
+                                        }
+                                    } catch (err) {
+                                        console.log(err)
+                                    }
+                                })
+
+
+                            })
+
+
+
+
                         })
 
+                    } else {
+                        //user already exist
+                        
+                        console.log(`User already exist, he is ${user.name}`)
+                        const data2 = await fetch('http://localhost:3000/api/predict/vote', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                name: user.name,
+                                prediId: response.response.id
+                            })
 
-                    }).then((response) => {
 
-                        response.json().then((json) => {
-                            try {
-                                if (json.response != null) {
+                        }).then((response) => {
 
-                                    setVote(json.response.response)
+                            response.json().then((json) => {
+                                try {
+                                    if (json.response != null) {
+
+                                        setVote(json.response.response)
+                                    }
+                                } catch (err) {
+                                    console.log(err)
                                 }
-                            } catch (err) {
-                                console.log(err)
-                            }
+                            })
+
+
                         })
 
+                    }
 
-                    })
+
                 })
             } catch (err) {
                 Router.reload()
@@ -116,29 +156,24 @@ export default function Answer({ props }) {
 
 
     async function fetchLastPredi() {
-        await fetch('http://localhost:3000/api/auth/session')
-
         const res3 = await fetch('http://localhost:3000/api/predict')
         const predi = await res3.json()
         return predi
     }
 
 
-    async function setYes(props) {
-
-        await fetch('http://localhost:3000/api/auth/session')
+    async function setYes() {
         const res3 = await fetch('http://localhost:3000/api/predict')
         const predi = await res3.json()
+
         try {
-
-
             const data = await fetch('http://localhost:3000/api/predict/participate', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    user: props.user,
+                    user: user,
                     predi: predi.response,
                     answer: 'yes'
                 })
@@ -153,7 +188,7 @@ export default function Answer({ props }) {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        userId: props.user.id,
+                        name: user.name,
                         prediId: predi.response.id
                     })
 
@@ -175,7 +210,7 @@ export default function Answer({ props }) {
         }
     }
 
-    async function setNo(props) {
+    async function setNo() {
 
         await fetch('http://localhost:3000/api/auth/session')
 
@@ -189,7 +224,7 @@ export default function Answer({ props }) {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    user: props.user,
+                    user: user,
                     predi: predi.response,
                     answer: 'no'
                 })
@@ -204,7 +239,7 @@ export default function Answer({ props }) {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        userId: props.user.id,
+                        name: user.name,
                         prediId: predi.response.id
                     })
 
@@ -235,33 +270,35 @@ export default function Answer({ props }) {
     }
 
 
-    function render(predi, props, time) {
+    function render(predi, time) {
 
 
         return <div className={styles.answer}>
 
-            {typeof props.user.name == 'undefined' ? <> {Router.reload()}</> : <></>}
+
+            {/* {typeof props.user.name == 'undefined' ? <> {Router.reload()}</> : <></>} */}
 
 
             <div className={styles.name}>
                 <h1> {predi.name} </h1>
+
             </div>
-            <div className={styles.prog}> {time / 20 * 100 < 100 && predi.end == 0 && time != '' ? <><Progress_bar  progress={time / 20 * 100} height={140} /> </> : <></>}
+            <div className={styles.prog}> {time / 20 * 100 < 100 && (predi.end == 0 || typeof predi.end == 'undefined') && time != '' ? <><Progress_bar progress={time / 20 * 100} height={140} /> </> : <> <h2>Time since creation of prediction : {time} seconds</h2></>}
             </div>
 
             <div className={styles.form}>
 
                 <div className={styles.info}>
-                    Name : {props.user.name} <br />
-                    Score : {props.user.winstreak} <br />
+                    Name : {user.name} <br />
+                    Score : {user.winstreak} <br />
                     Vote : {vote}
                 </div>
 
-                {time < 20 && time != '' ? <>
+                {time < 20 && time != '' && (predi.end == 0 || typeof predi.end == 'undefined') ? <>
 
                     <div className={styles.buttonContainer}>
-                        <button id='yes' onClick={() => setYes(props)} className={styles.yes} >Yes</button>
-                        <button id='no' onClick={() => setNo(props)} className={styles.no} >No</button>
+                        <button id='yes' onClick={() => setYes()} className={styles.yes} >Yes</button>
+                        <button id='no' onClick={() => setNo()} className={styles.no} >No</button>
                     </div>
 
 
@@ -274,7 +311,7 @@ export default function Answer({ props }) {
 
                 </>}
 
-                {predi.end != 0 ? <>
+                {predi.end != 0 && typeof predi.end != 'undefined' ? <>
                     <div className={styles.prediText}>
 
                         {predi.end == 1 && vote == 'yes' || predi.end == 2 && vote == 'no' ? <>You win</> :
@@ -298,7 +335,7 @@ export default function Answer({ props }) {
         </div>
     }
 
-    return render(predi, props, time)
+    return render(predi, time)
 
 
 

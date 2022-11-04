@@ -2,12 +2,15 @@ import { DATE } from 'sequelize'
 import Prediction from '../../../model/Predictions'
 
 const sequelize = require('../../../database/Database.js')
+const objCache = require('../../../database/Cache')
 
 import { unstable_getServerSession } from "next-auth/next"
 import { authOptions } from "../auth/[...nextauth]"
 
 export default async function handler(req, res) {
     try {
+       
+       
         const session = await unstable_getServerSession(req, res, authOptions)
 
 
@@ -26,6 +29,7 @@ export default async function handler(req, res) {
         if (user.dataValues.isAdmin == 1) {
 
             const predi = await Prediction.create({ name: "Dreivo win the next game?" })
+            objCache.cachePredictionNextTime = false
             res.json(
                 {
 

@@ -2,7 +2,7 @@ const sequelize = require('../../../database/Database')
 
 export default async function handler(req, res) {
 
-    var userId = req.body.userId
+    var name = req.body.name
     var prediId = req.body.prediId
 
     try {
@@ -15,7 +15,7 @@ export default async function handler(req, res) {
 
 
                     where: {
-                        userId: userId,
+                        name: name,
                         prediId: prediId
                     }
 
@@ -24,7 +24,7 @@ export default async function handler(req, res) {
             }
         )
     } catch (err) {
-        console.log(`\u001b[1;31m api participation error ${err}`)
+        console.log(`\u001b[1;31m api vote error ${err}`)
 
         res.status(400).json({
             response: err.toString()
