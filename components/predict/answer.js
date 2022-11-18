@@ -277,7 +277,7 @@ export default function Answer() {
         return <div className={styles.answer}>
 
 
-    
+
             <div className={styles.name}>
                 <h1> {predi.name} </h1>
 
@@ -313,9 +313,9 @@ export default function Answer() {
                 {predi.end != 0 && typeof predi.end != 'undefined' ? <>
                     <div className={styles.prediText}>
 
-                        {predi.end == 1 && vote == 'yes' || predi.end == 2 && vote == 'no' ? <>You win</> :
-                            <>
-                                You loose</>}
+                        {predi.end == 1 && vote == 'yes' || predi.end == 2 && vote == 'no' ?
+                            <> <div className={styles.resultTrue}>You win</div></> :
+                            <><div className={styles.resultBad}> You loose</div></>}
                     </div>
                 </>
 

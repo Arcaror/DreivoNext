@@ -55,7 +55,18 @@
     bottom: 0vmax;
     font-family:'Courier New', Courier, monospace;
 }
-
+.answer .resultBad {
+    position: relative;
+    display: block;
+    top: 2em;   
+    background-color: rgb(148, 24, 24);
+}
+.answer .resultTrue {
+    position: relative;
+    display: block;
+    top: 2em;   
+    background-color: rgb(14, 99, 14);
+}
 .answer button {
 
     position: relative;
