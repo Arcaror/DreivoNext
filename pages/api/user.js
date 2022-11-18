@@ -11,7 +11,7 @@ export default async function handler(req, res) {
         const userName = req.body.userName
 
 
-        if (userName == 'undefined') {
+        if (userName == 'undefined' && userId != 'undefined' ) {
             console.log(`User is ${userId}`)
 
             const user = await sequelize.models.users.findOne({
@@ -27,7 +27,7 @@ export default async function handler(req, res) {
             })
     
         }
-        else {
+        if (userId == 'undefined' && userName != 'undefined' ) {
             console.log(`User is ${userName}`)
 
             const user = await sequelize.models.users.findOne({

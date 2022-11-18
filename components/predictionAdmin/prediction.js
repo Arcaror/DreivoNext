@@ -18,9 +18,6 @@ export default function Prediction(props) {
             socket.on('connect', () => {
                 console.log('connect')
 
-                fetch('http://localhost:3000/api/auth').then(() => {
-                    console.log("API AUTH ---------------")
-                })
 
                 socket.emit('admin')
             })
@@ -40,7 +37,6 @@ export default function Prediction(props) {
 
     fetchLastPredi().then((response) => {
         setPredi(response.response.id)
-        setAnswer(response.response.end)
 
 
     })
@@ -54,6 +50,7 @@ export default function Prediction(props) {
         await fetch('http://localhost:3000/api/auth/session')
         const res3 = await fetch('http://localhost:3000/api/predict')
         const predi = await res3.json()
+        console.log(predi)
 
 
         return predi
@@ -80,17 +77,20 @@ export default function Prediction(props) {
             fetch('http://localhost:3000/api/auth').then(() => {
                 console.log("API AUTH ---------------")
             })
-            await fetch('http://localhost:3000/api/predict/endYes/' + predi)
+            await fetch('http://localhost:3000/api/predict/endYes/' + predi).finally(() => {
 
-            fetchLastPredi().then((response) => {
-                setPredi(response.response.id)
-                setAnswer('yes')
-                fetch('/api/socketio').finally(() => {
-
-                    socket.emit('reloadUsers', 'reloadUsers')
-
+                fetchLastPredi().then((response) => {
+        
+                    setPredi(response.response.id)
+                    setAnswer('yes')
+                    fetch('/api/socketio').finally(() => {
+    
+                        socket.emit('reloadUsers', 'reloadUsers')
+    
+                    })
                 })
             })
+
 
 
             await fetch('http://localhost:3000/api/predict/rewardYes', {
@@ -156,6 +156,8 @@ export default function Prediction(props) {
                 <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet"></link>
             </Head>
 
+            {typeof predi == 'undefined' ? <>
+                Reload </> : <></>}
 
 
             <h2> Prediction ID is : {predi} <br></br> Response : {answer}</h2>

@@ -14,20 +14,20 @@ export default function Admin(props) {
     const { data: session } = useSession()
 
 
-    // const refresh = useEffect(() => {
-    //     setTimeout(() => {
+    const refresh = () => {
+        setTimeout(() => {
 
-    //         try {
-    //             if (!props.predi.id)
-    //                 console.log(props.predi.id)
-    //             Router.reload()
-    //         } catch {
-    //             Router.reload()
+            try {
+                if (!props.predi.id)
+                    console.log(props.predi.id)
+                Router.reload()
+            } catch {
+                Router.reload()
 
-    //         }
-    //     }, 1000)
+            }
+        }, 1000)
 
-    // })
+    }
 
     return (<>
 
@@ -59,10 +59,9 @@ export default function Admin(props) {
                 </>
             ) : (
 
-                <>  </>
+                <> {refresh} </>
             )}
-
-
+            
 
 
         </div>
