@@ -108,7 +108,7 @@ export default function Answer() {
 
                     } else {
                         //user already exist
-                        
+
                         console.log(`User already exist, he is ${user.name}`)
                         const data2 = await fetch('http://localhost:3000/api/predict/vote', {
                             method: 'POST',
@@ -277,9 +277,7 @@ export default function Answer() {
         return <div className={styles.answer}>
 
 
-            {/* {typeof props.user.name == 'undefined' ? <> {Router.reload()}</> : <></>} */}
-
-
+    
             <div className={styles.name}>
                 <h1> {predi.name} </h1>
 
