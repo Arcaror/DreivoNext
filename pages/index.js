@@ -23,7 +23,7 @@ export default function Home(props) {
             {status == "authenticated" ? <>
                 <Answer props={props}></Answer>
 
-                {session.user.email}</> : <>
+                </> : <>
                 <a href="/api/auth/signin">Sign in</a>
             </>}
 
