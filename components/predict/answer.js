@@ -67,7 +67,8 @@ export default function Answer() {
                                 'Content-Type': 'application/json',
                             },
                             body: JSON.stringify({
-                                userName: session.user.name
+                                userName: session.user.name,
+                                userId: 'undefined'
                             })
                         })
                         const userJson = user.json().then(async user => {

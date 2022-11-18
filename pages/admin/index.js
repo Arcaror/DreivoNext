@@ -14,19 +14,20 @@ export default function Admin(props) {
     const { data: session } = useSession()
 
 
-    const refresh = useEffect(() => {
-        setTimeout(() => {
+    // const refresh = useEffect(() => {
+    //     setTimeout(() => {
 
-            try{
-            if (!props.predi.id)
-                Router.reload()
-            }catch{
-                Router.reload()
+    //         try {
+    //             if (!props.predi.id)
+    //                 console.log(props.predi.id)
+    //             Router.reload()
+    //         } catch {
+    //             Router.reload()
 
-            }
-        }, 200)
+    //         }
+    //     }, 1000)
 
-    })
+    // })
 
     return (<>
 
@@ -58,7 +59,7 @@ export default function Admin(props) {
                 </>
             ) : (
 
-                <>  {refresh} </>
+                <>  </>
             )}
 
 
@@ -101,8 +102,10 @@ export async function getServerSideProps(context) {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(sess.response.userId)
-
+            body:JSON.stringify({ 
+                userId: sess.response.userId,
+                userName: 'undefined'
+            })
         })
         const user = await res2.json()
 
