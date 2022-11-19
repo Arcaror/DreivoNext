@@ -16,26 +16,30 @@ export default async function handler(req, res) {
         if (diff <= 20) {
             console.log(`fine ${diff}`)
 
+            await Participations.findOrCreate({
+                where: {
+                    userId: user.id,
+                    prediId: predict.id
+                },
+                defaults: {
+                    userId: user.id,
+                    name: user.name,
+                    response: answer,
+                    prediId: predict.id
+                }
+
+
+
+            })
+
             res.json(
                 {
 
-    
-                    response: await Participations.findOrCreate({
-                        where: {
-                            userId: user.id,
-                            prediId: predict.id
-                        },
-                        defaults: {
-                            userId: user.id,
-                            name: user.name,
-                            response: answer,
-                            prediId: predict.id
-                        }
-    
-    
-    
-                    })
-    
+                    response: {
+                        user: user,
+                        predi: predict
+                    }
+                  
                 })
         } else{
             console.log(`too late ${diff}`)
