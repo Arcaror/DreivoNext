@@ -6,6 +6,7 @@ import { useSession } from 'next-auth/react'
 const moment = require('moment')
 import { io } from 'socket.io-client'
 import Progress_bar from '../progressbar/progress_bar';
+import { suppressDeprecationWarnings } from 'moment';
 
 export const socket = io("http://localhost:3000")
 
@@ -289,6 +290,7 @@ export default function Answer() {
             <div className={styles.form}>
 
                 <div className={styles.info}>
+                    {session.id}
                     Name : {user.name} <br />
                     Score : {user.winstreak} <br />
                     Vote : {vote}
