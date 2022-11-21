@@ -311,10 +311,10 @@ export default function Answer() {
 
                 </>}
 
-                {predi.end != 0 && typeof predi.end != 'undefined' ? <>
+                {predi.end != 0 && typeof predi.end != 'undefined' && vote != '' ?  <>
                     <div className={styles.prediText}>
 
-                        {predi.end == 1 && vote == 'yes' || predi.end == 2 && vote == 'no' ?
+                        {predi.end == 1 && vote == 'yes' || predi.end == 2 && vote == 'no' && predi.end != 0 ?
                             <> <div className={styles.resultTrue}>You win</div></> :
                             <><div className={styles.resultBad}> You loose</div></>}
                     </div>
@@ -322,7 +322,7 @@ export default function Answer() {
 
                     : <>
                         <div className={styles.prediText}>
-                            <h2>Wait for result...</h2>
+                            <h2>Don't miss the next prediction.</h2>
                         </div>
                     </>}
 
