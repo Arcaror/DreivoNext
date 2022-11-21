@@ -37,7 +37,8 @@ export default function Answer() {
             })
 
             socket.on('reload', data => {
-                setTimeout(() => {
+                setTimeout(async () => {
+
                     Router.reload()
 
                 }, 500)
@@ -271,7 +272,7 @@ export default function Answer() {
     }
 
 
-    function render(predi, time) {
+    function render() {
 
 
         return <div className={styles.answer}>
@@ -293,7 +294,7 @@ export default function Answer() {
                     Vote : {vote}
                 </div>
 
-                {time < 20 && time != '' && (predi.end == 0 || typeof predi.end == 'undefined') ? <>
+                {time <= 20 && (predi.end == 0 || typeof predi.end == 'undefined') ? <>
 
                     <div className={styles.buttonContainer}>
                         <button id='yes' onClick={() => setYes()} className={styles.yes} >Yes</button>
@@ -334,7 +335,7 @@ export default function Answer() {
         </div>
     }
 
-    return render(predi, time)
+    return render()
 
 
 

@@ -77,18 +77,19 @@ export default function Prediction(props) {
             fetch('http://localhost:3000/api/auth').then(() => {
                 console.log("API AUTH ---------------")
             })
-            await fetch('http://localhost:3000/api/predict/endYes/' + predi).finally(() => {
+            await fetch('http://localhost:3000/api/predict/endYes/' + predi).then(() => {
 
-                fetchLastPredi().then((response) => {
+                fetchLastPredi().then(async (response) => {
         
                     setPredi(response.response.id)
                     setAnswer('yes')
-                    fetch('/api/socketio').finally(() => {
+                    await fetch('/api/socketio').finally(() => {
     
                         socket.emit('reloadUsers', 'reloadUsers')
     
                     })
                 })
+      
             })
 
 
@@ -100,7 +101,7 @@ export default function Prediction(props) {
                 },
                 body: JSON.stringify(predi)
             }).then(() => {
-                fetch('/api/socketio').finally(() => {
+                fetch('/api/socketio').then(() => {
 
                     socket.emit('reloadRanking', 'reloadRanking')
 
@@ -116,16 +117,16 @@ export default function Prediction(props) {
         try {
             await fetch('http://localhost:3000/api/predict/endNo/' + predi)
 
-            fetchLastPredi().then((response) => {
+            fetchLastPredi().then(async (response) => {
                 setPredi(response.response.id)
                 setAnswer('no')
-                fetch('/api/socketio').finally(() => {
+                await fetch('/api/socketio').finally(() => {
 
                     socket.emit('reloadUsers', 'reloadUsers')
-
+    
                 })
             })
-
+   
 
             await fetch('http://localhost:3000/api/predict/rewardNo', {
                 method: 'POST',

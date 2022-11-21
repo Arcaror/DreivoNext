@@ -8,9 +8,7 @@ export default async function handler(req, res) {
 
 
   
-  objCache.prediction = {}
-  objCache.cacheWinnersNextTime = false
-  objCache.cacheRankingNextTime = false
+
   console.log(`cache of prediction is  ${objCache.prediction.id}`)
 
   const session = await fetch('http://localhost:3000/api/auth/session')
@@ -18,7 +16,10 @@ export default async function handler(req, res) {
   const res3 = await fetch('http://localhost:3000/api/predict')
   const predi = await res3.json()
   const sess = await unstable_getServerSession(req, res, authOptions)
-
+  objCache.prediction = {}
+  objCache.cacheWinnersNextTime = false
+  objCache.cacheRankingNextTime = false
+  
   const user = await sequelize.models.users.findOne({
 
 
