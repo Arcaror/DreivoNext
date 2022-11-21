@@ -320,10 +320,16 @@ export default function Answer() {
                     </div>
                 </>
 
-                    : <>
+                    : <>{time <= 20 && predi.end == 0 ? <>
                         <div className={styles.prediText}>
+                            <h2>Good luck!</h2>
+                        </div>
+                    </> : <>
+                    <div className={styles.prediText}>
                             <h2>Don't miss the next prediction.</h2>
                         </div>
+                    </>}
+                
                     </>}
 
 
