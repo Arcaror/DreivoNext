@@ -4,7 +4,6 @@ import Head from 'next/head'
 import { useSession } from 'next-auth/react'
 import { clearPreviewData, getCookieParser } from 'next/dist/server/api-utils';
 import Prediction from '../../components/predictionAdmin/prediction'
-import Router from 'next/router';
 import { useEffect } from "react";
 
 
@@ -14,20 +13,7 @@ export default function Admin(props) {
     const { data: session } = useSession()
 
 
-    const refresh = () => {
-        setTimeout(() => {
 
-            try {
-                if (!props.predi.id)
-                    console.log(props.predi.id)
-                Router.reload()
-            } catch {
-                Router.reload()
-
-            }
-        }, 1000)
-
-    }
 
     return (<>
 
@@ -59,7 +45,7 @@ export default function Admin(props) {
                 </>
             ) : (
 
-                <> {refresh} </>
+                <> {} </>
             )}
             
 

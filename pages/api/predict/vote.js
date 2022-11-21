@@ -5,8 +5,11 @@ export default async function handler(req, res) {
     var name = req.body.name
     var prediId = req.body.prediId
 
+
     try {
         await fetch('http://localhost:3000/api/auth/session')
+    
+        
         res.json(
             {
 

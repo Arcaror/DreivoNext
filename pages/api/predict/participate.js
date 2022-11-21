@@ -3,6 +3,10 @@ import Participations from '../../../model/Participations'
 import Prediction from '../../../model/Participations'
 const { Op } = require('sequelize');
 const sequelize = require('../../../database/Database.js')
+import { unstable_getServerSession } from "next-auth/next"
+import { authOptions } from "../auth/[...nextauth]"
+
+
 const moment = require('moment')
 
 export default async function handler(req, res) {
@@ -11,9 +15,19 @@ export default async function handler(req, res) {
     const answer = req.body.answer
 
     try {
+        const session = await unstable_getServerSession(req, res, authOptions)
+        
+        const userFromSession = await sequelize.models.users.findOne({
+    
+    
+            where: {
+              email: session.user.email
+            }
+        
+          })
 
         let diff = moment.utc().diff(predict.createdAt, 'seconds')
-        if (diff <= 20) {
+        if (diff <= 20 && userFromSession.name == user.name) {
             console.log(`fine ${diff}`)
 
             res.json(
