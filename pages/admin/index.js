@@ -15,15 +15,15 @@ export default function Admin(props) {
 
 
 
-    const reload = () => {
-        useEffect(() => {
-            setTimeout(() => {
-                Router.reload()
+    // function reload() {
+    //     useEffect(() => {
+    //         setTimeout(() => {
+    //             Router.reload()
 
-            }, 100)
+    //         }, 100)
 
-        })
-    }
+    //     })
+    // }
 
     return (<>
 
@@ -55,7 +55,7 @@ export default function Admin(props) {
                 </>
             ) : (
 
-                <> {reload()} </>
+                {/* <> {reload()} </> */}
             )}
 
 
