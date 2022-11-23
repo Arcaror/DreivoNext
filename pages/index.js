@@ -3,6 +3,7 @@ import React from 'react'
 import Answer from '../components/predict/answer';
 import Head from 'next/head'
 import { useSession } from 'next-auth/react'
+import Link from 'next/link'
 
 
 
@@ -24,7 +25,7 @@ export default function Home(props) {
                 <Answer props={props}></Answer>
 
                 </> : <>
-                <a href="/api/auth/signin">Sign in</a>
+                <Link href="/api/auth/signin">Sign in</Link>
             </>}
 
 

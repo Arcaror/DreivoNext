@@ -72,6 +72,7 @@ export default function Answer() {
                                 userName: session.user.name,
                                 userId: 'undefined'
                             })
+                            , next: { revalidate: 10 } 
                         })
                         const userJson = user.json().then(async user => {
                             setUser(user.response)
@@ -85,7 +86,7 @@ export default function Answer() {
                                     name: user.response.name,
                                     prediId: response.response.id
                                 })
-
+                                , next: { revalidate: 10 } 
 
                             }).then((response) => {
 
@@ -121,9 +122,9 @@ export default function Answer() {
                                 name: user.name,
                                 prediId: response.response.id
                             })
+                            , next: { revalidate: 10 } 
 
-
-                        }).then((response) => {
+                        },{ next: { revalidate: 10 } }).then((response) => {
 
                             response.json().then((json) => {
                                 try {
@@ -214,8 +215,6 @@ export default function Answer() {
     }
 
     async function setNo() {
-
-        await fetch('http://localhost:3000/api/auth/session')
 
         const res3 = await fetch('http://localhost:3000/api/predict')
         const predi = await res3.json()
@@ -328,7 +327,7 @@ export default function Answer() {
                         </div>
                     </> : <>
                     <div className={styles.prediText}>
-                            <h2>Don't miss the next prediction.</h2>
+                            <h2>Don&apos;t miss the next prediction.</h2>
                         </div>
                     </>}
                 

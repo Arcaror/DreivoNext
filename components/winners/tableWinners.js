@@ -66,7 +66,7 @@ export default function TableWinners() {
         return <div className={styles.ranking}>
 
             <h1>Winners</h1>
-            <h5>Blue guys can unlock the first reward by Twitch subscription on DreivoHS channel, type "Unlock me" in Twitch chat.</h5>
+            <h5>Blue guys can unlock the first reward by Twitch subscription on DreivoHS channel, type &quot;Unlock me&quot; in Twitch chat.</h5>
 
             {ranking.constructor == Array && ranking != [] ? (ranking.map((user) => {
 

@@ -5,6 +5,7 @@ import { useSession } from 'next-auth/react'
 import { clearPreviewData, getCookieParser } from 'next/dist/server/api-utils';
 import Prediction from '../../components/predictionAdmin/prediction'
 import { useEffect } from "react";
+import Router from 'next/router';
 
 
 
@@ -14,6 +15,15 @@ export default function Admin(props) {
 
 
 
+    const reload = () => {
+        useEffect(() => {
+            setTimeout(() => {
+                Router.reload()
+
+            }, 100)
+
+        })
+    }
 
     return (<>
 
@@ -45,9 +55,9 @@ export default function Admin(props) {
                 </>
             ) : (
 
-                <> {} </>
+                <> {reload()} </>
             )}
-            
+
 
 
         </div>
@@ -87,7 +97,7 @@ export async function getServerSideProps(context) {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body:JSON.stringify({ 
+            body: JSON.stringify({
                 userId: sess.response.userId,
                 userName: 'undefined'
             })

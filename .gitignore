@@ -210,3 +210,5 @@ package-lock.json
 
 .next/
 .next
+
+certificates/*
