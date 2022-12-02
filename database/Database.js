@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize');
+require('dotenv').config()
 
 const sql_user = process.env.SQL_USER
 const sql_pass = process.env.SQL_PASS

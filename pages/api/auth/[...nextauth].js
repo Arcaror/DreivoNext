@@ -5,6 +5,7 @@ import Sequelize, { DataTypes } from "sequelize"
 const Predictions = require('/model/Predictions')
 
 import sequelize from '/database/Database'
+require('dotenv').config()
 
 
 sequelize.sync()
@@ -99,10 +100,10 @@ export const authOptions = {
   },
   jwt: {
     encryption: true,
-    secret: process.env.JWT_OP_SECRET
+    secret: process.env.NEXTAUTH_SECRET
 
   },
-  secret: process.env.JWT_OP_SECRET
+  secret: process.env.NEXTAUTH_SECRET
 
 }
 
