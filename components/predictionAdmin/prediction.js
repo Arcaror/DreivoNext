@@ -157,10 +157,10 @@ export default function Prediction(props) {
                 <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet"></link>
             </Head>
 
-            {typeof predi == 'undefined' ? <>
-                Reload </> : <></>}
-
-
+            {typeof predi == 'undefined' ? <> ???
+                 </> : <>
+                 
+                 
             <h2> Prediction ID is : {predi} <br></br> Response : {answer}</h2>
             <div className={styles.buttonContainer}>
                 <button className={styles.create} onClick={() => create()}> Create prediction </button>
@@ -169,6 +169,9 @@ export default function Prediction(props) {
                     <button className={styles.no} onClick={() => endNo(predi)}>set result  NO </button>
                 </div>
             </div>
+                 </>}
+
+
 
 
         </div>)

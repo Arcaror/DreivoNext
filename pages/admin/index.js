@@ -36,7 +36,6 @@ export default function Admin(props) {
 
         <div className={styles.Home}>
 
-            {props.notFound == false && props.sess.sessionToken != undefined ? (
                 <>
 
                     {props.user.isAdmin == 1 ? (
@@ -53,11 +52,7 @@ export default function Admin(props) {
                     )}
 
                 </>
-            ) : (
-
-                {/* <> {reload()} </> */}
-            )}
-
+            
 
 
         </div>
@@ -76,7 +71,10 @@ export async function getServerSideProps(context) {
 
 
     try {
-
+        res.setHeader(
+            'Cache-Control',
+            'public, s-maxage=10, stale-while-revalidate=59'
+          )
 
 
         //FIRST API REQUEST
