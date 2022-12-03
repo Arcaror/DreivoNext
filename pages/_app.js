@@ -9,7 +9,7 @@ export default function MyApp({ Component, pageProps: { session, ...pageProps } 
   return (
 
     <>
-  <Head> <title>Predictor application for Dreivo</title> </Head>
+  <Head> <title>Predictor application</title> </Head>
 
       <SessionProvider session={session}>
 

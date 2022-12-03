@@ -46,6 +46,7 @@ export default function Header() {
                 </Link>
 
 
+                
                 {!session && (<div className={styles.login}>
                     <Login></Login>
 
@@ -55,8 +56,7 @@ export default function Header() {
                     <Link href="/"><a onClick={() => signOut()}>Sign out</a></Link>
                 </>)}
 
-            </div>
-
+                </div>
 
 
         </div>
