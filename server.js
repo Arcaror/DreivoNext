@@ -11,6 +11,7 @@ const app = next({ dev, hostname, port })
 const handle = app.getRequestHandler()
 var dict = new Map()
 const moment = require('moment')
+const { Router } = require('next/router')
 
 app.prepare().then(() => {
     createServer(async (req, res) => {
@@ -33,16 +34,16 @@ app.prepare().then(() => {
 
                 }
 
-                if (dict.get(ip).count > dict.get(ip).duration * 10) {
+                if (dict.get(ip).count > (dict.get(ip).duration + 5) * 5) {
                     setTimeout(async () => {
                         dict.set(ip, {
                             count: dict.get(ip).count + 1, time: dict.get(ip).time,
                             duration: moment.duration(moment(dict.get(ip).time).diff(moment(), 'seconds'), 'seconds').as('second') * -1
                         })
 
-                        console.log(dict.get(ip))
-                        await handle(req, res, parsedUrl)
-
+                        console.log(`SPAM? Ip: ${ip} Request Data: ${JSON.stringify(dict.get(ip))} Pathname: ${pathname}`)
+                        res.write(`<html><h1>Please stop spamming, you are logged... </br> IP: ${ip}</h1></html>`)
+                        res.end()
                     }, 3000)
 
                 } else {
@@ -52,6 +53,10 @@ app.prepare().then(() => {
                     })
                     console.log(`Ip: ${ip} Request Data: ${JSON.stringify(dict.get(ip))} Pathname: ${pathname}`)
            
+                    if(dict.get(ip).duration > 60){
+                        dict.set(ip, { count: 1, time: moment(), duration: 0 })
+
+                    }
 
                     await handle(req, res, parsedUrl)
 
