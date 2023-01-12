@@ -4,7 +4,7 @@ const objCache =  require('../../database/Cache')
 export default async function handler(req, res) {
 
     try {
-        await fetch('http://localhost:3000/api/auth/session')
+        await fetch('https://legrandarca.ddns.net/api/auth/session')
         if (objCache.cachePredictionNextTime == true && objCache.prediction.toString() != '[object Object]'){
             // objCache.cachePredictionNextTime = false
             console.log(`\x1B[34m prediction cache ${objCache.prediction.toString()} \x1B[37m`);

@@ -7,7 +7,7 @@ import Link from 'next/link'
 
 
 
-export default function Home(props) {
+export default function Home() {
 
     const { data: session, status } = useSession()
 
@@ -21,12 +21,12 @@ export default function Home(props) {
 
 
         <div className={styles.Home}>
-            {status == "authenticated" ? <>
-                <Answer props={props}></Answer>
-
+            {status == "authenticated" ?
+                <>
+                    <Answer></Answer>
                 </> : <>
-                <Link href="/api/auth/signin">Sign in</Link>
-            </>}
+                <p>Please connect you</p>
+                </>}
 
 
         </div>

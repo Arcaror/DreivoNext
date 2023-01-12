@@ -6,7 +6,7 @@ const ioHandler = (req, res) => {
 
     const io = new Server(res.socket.server, {
       cors: {
-        origin: "http://localhost:3000",
+        origin: "https://legrandarca.ddns.net",
         methods: ["GET", "POST"]
       }
     })

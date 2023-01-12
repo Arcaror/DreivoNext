@@ -1,0 +1,23 @@
+error - Failed to load env from C:\Users\Louis\Desktop\Dreivo\DreivoNext\.env TypeError: Cannot read properties of undefined (reading 'split')
+    at C:\Users\Louis\Desktop\Dreivo\DreivoNext\node_modules\@next\env\dist\index.js:1:310
+    at Array.reduce (<anonymous>)
+    at _interpolate (C:\Users\Louis\Desktop\Dreivo\DreivoNext\node_modules\@next\env\dist\index.js:1:124)
+    at expand (C:\Users\Louis\Desktop\Dreivo\DreivoNext\node_modules\@next\env\dist\index.js:1:708)
+    at processEnv (C:\Users\Louis\Desktop\Dreivo\DreivoNext\node_modules\@next\env\dist\index.js:1:3636)
+    at Module.loadEnvConfig (C:\Users\Louis\Desktop\Dreivo\DreivoNext\node_modules\@next\env\dist\index.js:1:4441)
+    at Object.loadConfig [as default] (C:\Users\Louis\Desktop\Dreivo\DreivoNext\node_modules\next\dist\server\config.js:40:21)
+    at NextServer.loadConfig (C:\Users\Louis\Desktop\Dreivo\DreivoNext\node_modules\next\dist\server\next.js:131:36)
+    at NextServer.getServer (C:\Users\Louis\Desktop\Dreivo\DreivoNext\node_modules\next\dist\server\next.js:136:39)
+    at NextServer.prepare (C:\Users\Louis\Desktop\Dreivo\DreivoNext\node_modules\next\dist\server\next.js:115:35)
+error - Failed to load env from C:\Users\Louis\Desktop\Dreivo\DreivoNext\.env TypeError: Cannot read properties of undefined (reading 'split')
+    at C:\Users\Louis\Desktop\Dreivo\DreivoNext\node_modules\@next\env\dist\index.js:1:310
+    at Array.reduce (<anonymous>)
+    at _interpolate (C:\Users\Louis\Desktop\Dreivo\DreivoNext\node_modules\@next\env\dist\index.js:1:124)
+    at expand (C:\Users\Louis\Desktop\Dreivo\DreivoNext\node_modules\@next\env\dist\index.js:1:708)
+    at processEnv (C:\Users\Louis\Desktop\Dreivo\DreivoNext\node_modules\@next\env\dist\index.js:1:3636)
+    at Module.loadEnvConfig (C:\Users\Louis\Desktop\Dreivo\DreivoNext\node_modules\@next\env\dist\index.js:1:4441)
+    at Object.loadConfig [as default] (C:\Users\Louis\Desktop\Dreivo\DreivoNext\node_modules\next\dist\server\config.js:40:21)
+    at NextServer.loadConfig (C:\Users\Louis\Desktop\Dreivo\DreivoNext\node_modules\next\dist\server\next.js:131:36)
+    at NextServer.getServer (C:\Users\Louis\Desktop\Dreivo\DreivoNext\node_modules\next\dist\server\next.js:136:39)
+    at NextServer.prepare (C:\Users\Louis\Desktop\Dreivo\DreivoNext\node_modules\next\dist\server\next.js:115:35)
+warn  - Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/basic-features/fast-refresh#how-it-works

@@ -11,9 +11,9 @@ export default async function handler(req, res) {
 
   console.log(`cache of prediction is  ${objCache.prediction.id}`)
 
-  const session = await fetch('http://localhost:3000/api/auth/session')
+  const session = await fetch('https://legrandarca.ddns.net/api/auth/session')
 
-  const res3 = await fetch('http://localhost:3000/api/predict')
+  const res3 = await fetch('https://legrandarca.ddns.net/api/predict')
   const predi = await res3.json()
   const sess = await unstable_getServerSession(req, res, authOptions)
   objCache.prediction = {}

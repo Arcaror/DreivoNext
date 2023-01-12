@@ -7,7 +7,7 @@ export default async function handler(req, res) {
 
 
     try {
-        await fetch('http://localhost:3000/api/auth/session')
+        await fetch('https://legrandarca.ddns.net/api/auth/session')
     
         
         res.json(

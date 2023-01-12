@@ -36,23 +36,31 @@ export default function Admin(props) {
 
         <div className={styles.Home}>
 
-                <>
+            <>
+
+                {props.notFound == true ? (<>Connect you {props.notFound}
+
+                </>) : <>
 
                     {props.user.isAdmin == 1 ? (
-
-
-                        <Prediction props={props}></Prediction>
-
+                        <>
+                            <Prediction></Prediction>
+                        </>
                     ) : (
                         <>
-                            YOU ARE NOT ADMIN
+                            {props.user.isAdmin}
+                            {props.notFound}
+                            You are not an admin...
 
 
                         </>
                     )}
 
-                </>
-            
+
+                </>}
+
+            </>
+
 
 
         </div>
@@ -69,25 +77,20 @@ export async function getServerSideProps(context) {
 
 
 
-
-    try {
-
-
-
         //FIRST API REQUEST
-        const res1 = await fetch('http://localhost:3000/api/session', {
+        const res1 = await fetch('https://legrandarca.ddns.net/api/session', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(context.req.cookies["next-auth.session-token"])
+            body: JSON.stringify(context.req.cookies["__Secure-next-auth.session-token"])
 
         })
 
         const sess = await res1.json()
 
         //SECOND API REQUEST
-        const res2 = await fetch('http://localhost:3000/api/user', {
+        const res2 = await fetch('https://legrandarca.ddns.net/api/user', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -100,8 +103,9 @@ export async function getServerSideProps(context) {
         const user = await res2.json()
 
         //THIRD API REQUEST
-        const res3 = await fetch('http://localhost:3000/api/predict')
+        const res3 = await fetch('https://legrandarca.ddns.net/api/predict')
         const predi = await res3.json()
+        console.log(`Session : ${JSON.stringify(sess.response)} \nUser : ${JSON.stringify(user.response)} \nPredi : ${JSON.stringify(predi.response)} `)
         return {
             props: {
                 sess: sess.response,
@@ -109,15 +113,8 @@ export async function getServerSideProps(context) {
                 predi: predi.response,
                 notFound: false
 
-            }
+            } 
         }
 
-    } catch {
-        return {
-            props: {
-                notFound: true
-            }
-        }
-    }
+    } 
 
-}

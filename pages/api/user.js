@@ -5,7 +5,7 @@ const sequelize = require("../../database/Database")
 export default async function handler(req, res) {
 
     console.log("api/user is call")
-    await fetch('http://localhost:3000/api/auth/session')
+    await fetch('https://legrandarca.ddns.net/api/auth/session')
 
 
     try {
@@ -41,7 +41,7 @@ export default async function handler(req, res) {
 
             })
             res.json({
-                response: { id: user.dataValues.id, name: user.dataValues.name, winstreak: user.dataValues.winstreak, isAdmin: user.dataValues.isAdmin }
+                response: { id: user.dataValues.id, name: user.dataValues.name, winstreak: user.dataValues.winstreak, isAdmin: user.dataValues.isAdmin, isVip: user.dataValues.isVip }
             })
     
         }

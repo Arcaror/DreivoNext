@@ -7,7 +7,7 @@ import { io } from 'socket.io-client'
 
 import { socket } from '../predict/answer'
 
-export default function Prediction(props) {
+export default function Prediction() {
 
     const [predi, setPredi] = useState('');
     const [answer, setAnswer] = useState('');
@@ -47,8 +47,8 @@ export default function Prediction(props) {
 
     async function fetchLastPredi() {
 
-        await fetch('http://localhost:3000/api/auth/session')
-        const res3 = await fetch('http://localhost:3000/api/predict')
+        await fetch('https://legrandarca.ddns.net/api/auth/session')
+        const res3 = await fetch('https://legrandarca.ddns.net/api/predict')
         const predi = await res3.json()
         console.log(predi)
 
@@ -57,7 +57,7 @@ export default function Prediction(props) {
 
     }
     async function create() {
-        const res1 = await fetch('http://localhost:3000/api/predict/create')
+        const res1 = await fetch('https://legrandarca.ddns.net/api/predict/create')
         const prediction = await res1.json()
 
         fetchLastPredi().then((response) => {
@@ -74,27 +74,27 @@ export default function Prediction(props) {
 
     async function endYes(predi) {
         try {
-            fetch('http://localhost:3000/api/auth').then(() => {
+            fetch('https://legrandarca.ddns.net/api/auth').then(() => {
                 console.log("API AUTH ---------------")
             })
-            await fetch('http://localhost:3000/api/predict/endYes/' + predi).then(() => {
+            await fetch('https://legrandarca.ddns.net/api/predict/endYes/' + predi).then(() => {
 
                 fetchLastPredi().then(async (response) => {
-        
+
                     setPredi(response.response.id)
                     setAnswer('yes')
                     await fetch('/api/socketio').finally(() => {
-    
+
                         socket.emit('reloadUsers', 'reloadUsers')
-    
+
                     })
                 })
-      
+
             })
 
 
 
-            await fetch('http://localhost:3000/api/predict/rewardYes', {
+            await fetch('https://legrandarca.ddns.net/api/predict/rewardYes', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -115,7 +115,7 @@ export default function Prediction(props) {
     }
     async function endNo(predi) {
         try {
-            await fetch('http://localhost:3000/api/predict/endNo/' + predi)
+            await fetch('https://legrandarca.ddns.net/api/predict/endNo/' + predi)
 
             fetchLastPredi().then(async (response) => {
                 setPredi(response.response.id)
@@ -123,12 +123,12 @@ export default function Prediction(props) {
                 await fetch('/api/socketio').finally(() => {
 
                     socket.emit('reloadUsers', 'reloadUsers')
-    
+
                 })
             })
-   
 
-            await fetch('http://localhost:3000/api/predict/rewardNo', {
+
+            await fetch('https://legrandarca.ddns.net/api/predict/rewardNo', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -147,7 +147,17 @@ export default function Prediction(props) {
 
         }
     }
+    async function resetAll() {
+        const res1 = await fetch('https://legrandarca.ddns.net/api/predict/resetAll')
 
+        fetch('/api/socketio').finally(() => {
+
+            socket.emit('reloadUsers', 'reloadUsers')
+
+        })
+
+
+    }
     function render() {
         return (<div className={styles.prediction}>
 
@@ -158,18 +168,21 @@ export default function Prediction(props) {
             </Head>
 
             {typeof predi == 'undefined' ? <> ???
-                 </> : <>
-                 
-                 
-            <h2> Prediction ID is : {predi} <br></br> Response : {answer}</h2>
-            <div className={styles.buttonContainer}>
-                <button className={styles.create} onClick={() => create()}> Create prediction </button>
-                <div className={styles.yesNo}>
-                    <button className={styles.yes} onClick={() => endYes(predi)}>set result YES </button>
-                    <button className={styles.no} onClick={() => endNo(predi)}>set result  NO </button>
+            </> : <>
+
+
+                <h2> Prediction ID is : {predi} <br></br> Response : {answer}</h2>
+                <div className={styles.buttonContainer}>
+                    <button className={styles.create} onClick={() => create()}> Create prediction </button>
+                    <div className={styles.yesNo}>
+                        <button className={styles.yes} onClick={() => endYes(predi)}>set result YES </button>
+                        <button className={styles.no} onClick={() => endNo(predi)}>set result  NO </button>
+                    </div>
+                    <div className={styles.utilities}>
+                        <button className={styles.no} onClick={() => resetAll()}>Reset Winstreak of All players </button>
+                    </div>
                 </div>
-            </div>
-                 </>}
+            </>}
 
 
 

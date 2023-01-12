@@ -25,7 +25,9 @@ export const authOptions = {
       users: sequelize.define("users", {
         ...models.User,
         winstreak: DataTypes.INTEGER,
-        isAdmin: DataTypes.INTEGER
+        isAdmin: DataTypes.INTEGER,
+        isVip: DataTypes.INTEGER,
+
       }),
       predictions: sequelize.define("predictions", {
         name: DataTypes.TEXT,

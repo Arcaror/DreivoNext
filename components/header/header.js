@@ -1,9 +1,9 @@
 import Login from "../login/login"
 import styles from "./header.module.css"
-import react from "react"
 import { useSession, signIn, signOut } from "next-auth/react"
 import Head from 'next/head'
 import Link from 'next/link'
+import React, { useState, useEffect } from 'react';
 
 
 function onClickTwitch() {
@@ -11,9 +11,19 @@ function onClickTwitch() {
 }
 export default function Header() {
 
+    const [vip, setVip] = useState('te');
 
     const { data: session } = useSession()
 
+    async function setSub() {
+
+        await fetch('https://legrandarca.ddns.net/api/me/vip').then(response => {
+            response.json().then(json => {
+                setVip(json.response)
+
+            })
+        })
+    }
     return (<>
         <Head>
             <>
@@ -25,14 +35,9 @@ export default function Header() {
 
         <div className={styles.container}>
 
-            {/* <Link href="/">
-                <a className={styles.title}>Predictor application</a>
-            </Link> */}
-
-
 
             <div className={styles.link}>
-            <Link href="/">
+                <Link href="/">
                     <a>Home</a>
                 </Link>
                 <Link href="/winners">
@@ -46,17 +51,23 @@ export default function Header() {
                 </Link>
 
 
-                
+
                 {!session && (<div className={styles.login}>
                     <Login></Login>
 
                 </div>)}
                 {session && (<>
-                    <a className={styles.connect}>You are connected {session.user.name}</a>
+
+                    <div className={styles.connect}>You are connected {session.user.name}
                     <Link href="/"><a onClick={() => signOut()}>Sign out</a></Link>
+
+                  
+                    </div>
+
                 </>)}
 
-                </div>
+            </div>
+
 
 
         </div>

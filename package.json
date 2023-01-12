@@ -3,7 +3,7 @@
     "preinstall": "npx npm-force-resolutions",
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "node server.js",
     "lint": "next lint"
   },
   "name": "predicatornext",

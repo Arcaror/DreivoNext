@@ -6,7 +6,7 @@ export default async function handler(req, res) {
 
     try {
         var predictId = req.body
-        await fetch('http://localhost:3000/api/auth/session')
+        await fetch('https://legrandarca.ddns.net/api/auth/session')
 
         const session = await unstable_getServerSession(req, res, authOptions)
 
@@ -45,9 +45,10 @@ export default async function handler(req, res) {
                     }
                 })
 
-                if (guy.dataValues.winstreak == 5 || guy.dataValues.winstreak == 6 || guy.dataValues.winstreak == 10) {
-                    await sequelize.models.winners.create({ userId: guy.id, name: guy.name, winstreak: guy.winstreak })
-                    if (guy.dataValues.winstreak == 10) {
+
+                if (guy.dataValues.isVip == 1) {
+                    if (guy.dataValues.winstreak == 6 || guy.dataValues.winstreak == 12) {
+                        await sequelize.models.winners.create({ userId: guy.id, name: guy.name, winstreak: guy.winstreak })
                         const upd = await sequelize.models.users.findOne(
                             {
                                 where: { id: guy.id }
@@ -59,7 +60,23 @@ export default async function handler(req, res) {
 
                         upd.save()
                     }
+                } else {
+                    if (guy.dataValues.winstreak == 6) {
+                        await sequelize.models.winners.create({ userId: guy.id, name: guy.name, winstreak: guy.winstreak })
+                        const upd = await sequelize.models.users.findOne(
+                            {
+                                where: { id: guy.id }
+                            }
+                        )
+                        upd.set({
+                            winstreak: "0"
+                        })
+
+                        upd.save()
+                    }
+
                 }
+
             })
 
             const loosers = await sequelize.models.participations.findAll({

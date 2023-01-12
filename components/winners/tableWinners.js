@@ -6,7 +6,7 @@ const moment = require('moment');
 
 import { io } from 'socket.io-client'
 
-export const socket = io("http://localhost:3000")
+export const socket = io("https://legrandarca.ddns.net")
 
 
 export default function TableWinners() {
@@ -50,12 +50,18 @@ export default function TableWinners() {
 
     async function fetchRanking() {
 
+        var res3 = ''
+        try{
+             res3 = await fetch('https://legrandarca.ddns.net/api/winners')
+             const ranking = await res3.json()
+             setRanking(ranking)
+     
+             return  ranking
+        }catch{
+            Router.reload()
 
-        const res3 = await fetch('http://localhost:3000/api/winners')
-        const ranking = await res3.json()
-        setRanking(ranking)
-
-        return  ranking
+        }
+    
 
     }
 

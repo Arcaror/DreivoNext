@@ -8,7 +8,7 @@ import { io } from 'socket.io-client'
 import Progress_bar from '../progressbar/progress_bar';
 import { suppressDeprecationWarnings } from 'moment';
 
-export const socket = io("http://localhost:3000")
+export const socket = io("https://legrandarca.ddns.net")
 
 export default function Answer() {
     const { data: session, status } = useSession()
@@ -18,6 +18,7 @@ export default function Answer() {
     const [answer, setAnswer] = useState('');
     const [time, setTime] = useState('')
     const [vote, setVote] = useState('')
+    const [vip, setVip] = useState('te');
 
 
     //update time
@@ -38,11 +39,9 @@ export default function Answer() {
             })
 
             socket.on('reload', data => {
-                setTimeout(async () => {
 
-                    Router.reload()
+                Router.reload()
 
-                }, 500)
             })
 
 
@@ -63,7 +62,7 @@ export default function Answer() {
                         console.log(`User dont exist he is ${user}`)
 
 
-                        const user = await fetch('http://localhost:3000/api/user', {
+                        const user = await fetch('https://legrandarca.ddns.net/api/user', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
@@ -72,12 +71,12 @@ export default function Answer() {
                                 userName: session.user.name,
                                 userId: 'undefined'
                             })
-                            , next: { revalidate: 10 } 
+                            , next: { revalidate: 10 }
                         })
                         const userJson = user.json().then(async user => {
                             setUser(user.response)
 
-                            const data2 = await fetch('http://localhost:3000/api/predict/vote', {
+                            const data2 = await fetch('https://legrandarca.ddns.net/api/predict/vote', {
                                 method: 'POST',
                                 headers: {
                                     'Content-Type': 'application/json',
@@ -86,7 +85,7 @@ export default function Answer() {
                                     name: user.response.name,
                                     prediId: response.response.id
                                 })
-                                , next: { revalidate: 10 } 
+                                , next: { revalidate: 10 }
 
                             }).then((response) => {
 
@@ -113,7 +112,7 @@ export default function Answer() {
                         //user already exist
 
                         console.log(`User already exist, he is ${user.name}`)
-                        const data2 = await fetch('http://localhost:3000/api/predict/vote', {
+                        const data2 = await fetch('https://legrandarca.ddns.net/api/predict/vote', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
@@ -122,9 +121,9 @@ export default function Answer() {
                                 name: user.name,
                                 prediId: response.response.id
                             })
-                            , next: { revalidate: 10 } 
+                            , next: { revalidate: 10 }
 
-                        },{ next: { revalidate: 10 } }).then((response) => {
+                        }, { next: { revalidate: 10 } }).then((response) => {
 
                             response.json().then((json) => {
                                 try {
@@ -160,18 +159,18 @@ export default function Answer() {
 
 
     async function fetchLastPredi() {
-        const res3 = await fetch('http://localhost:3000/api/predict')
+        const res3 = await fetch('https://legrandarca.ddns.net/api/predict')
         const predi = await res3.json()
         return predi
     }
 
 
     async function setYes() {
-        const res3 = await fetch('http://localhost:3000/api/predict')
+        const res3 = await fetch('https://legrandarca.ddns.net/api/predict')
         const predi = await res3.json()
 
         try {
-            const data = await fetch('http://localhost:3000/api/predict/participate', {
+            const data = await fetch('https://legrandarca.ddns.net/api/predict/participate', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -186,7 +185,7 @@ export default function Answer() {
                 setAnswer('yes')
                 console.log('wtttttttttttf' + response)
 
-                const data2 = await fetch('http://localhost:3000/api/predict/vote', {
+                const data2 = await fetch('https://legrandarca.ddns.net/api/predict/vote', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -216,11 +215,11 @@ export default function Answer() {
 
     async function setNo() {
 
-        const res3 = await fetch('http://localhost:3000/api/predict')
+        const res3 = await fetch('https://legrandarca.ddns.net/api/predict')
         const predi = await res3.json()
         try {
 
-            const data = await fetch('http://localhost:3000/api/predict/participate', {
+            const data = await fetch('https://legrandarca.ddns.net/api/predict/participate', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -235,7 +234,7 @@ export default function Answer() {
                 setAnswer('no')
                 console.log(response)
 
-                const data2 = await fetch('http://localhost:3000/api/predict/vote', {
+                const data2 = await fetch('https://legrandarca.ddns.net/api/predict/vote', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -271,12 +270,26 @@ export default function Answer() {
         // document.getElementById('yes').style.backgroundColor = 'blue'
     }
 
+    
+    async function setSub() {
+
+        await fetch('https://legrandarca.ddns.net/api/me/vip').then(response => {
+            response.json().then(json => {
+                setVip(json.response)
+                if(vip.status == 'yes'){
+                    user.isVip = 1
+                }
+                if(vip.status == 'no'){
+                    user.isVip = 0
+                }
+            })
+        })
+    }
 
     function render() {
 
 
         return <div className={styles.answer}>
-
 
 
             <div className={styles.name}>
@@ -292,10 +305,20 @@ export default function Answer() {
                     {session.id}
                     Name : {user.name} <br />
                     Score : {user.winstreak} <br />
-                    Vote : {vote}
-                </div>
+                    Vote : {vote} <br/>
+                    {typeof vip.buttonText == 'undefined' ?
+                         <>          
+                         Twitch Sub mode : {user.isVip == 1 ? <>yes</> : <>no</>}
 
-                {time <= 20 && (predi.end == 0 || typeof predi.end == 'undefined') ? <>
+                            <button onClick={() => setSub()}>SUB MODE TWITCH</button></>  
+                            : <>
+                                Twitch Sub mode : {vip.status}
+
+                                <button onClick={() => setSub()}>{vip.buttonText}</button>
+                                <p>{vip.sentence}</p>
+                            </>}
+                </div>
+                {time <= 20 && predi.end == 0 ? <>
 
                     <div className={styles.buttonContainer}>
                         <button id='yes' onClick={() => setYes()} className={styles.yes} >Yes</button>
@@ -312,7 +335,7 @@ export default function Answer() {
 
                 </>}
 
-                {predi.end != 0 && typeof predi.end != 'undefined' && vote != '' ?  <>
+                {predi.end != 0 && typeof predi.end != 'undefined' && vote != '' ? <>
                     <div className={styles.prediText}>
 
                         {predi.end == 1 && vote == 'yes' || predi.end == 2 && vote == 'no' && predi.end != 0 ?
@@ -321,16 +344,17 @@ export default function Answer() {
                     </div>
                 </>
 
-                    : <>{time <= 20 && predi.end == 0 ? <>
+                    : <>{time <= 20 && predi.end == 0 && vote != "" ? <>
                         <div className={styles.prediText}>
                             <h2>Good luck!</h2>
                         </div>
                     </> : <>
-                    <div className={styles.prediText}>
+                    {vote == "" ? <><div className={styles.prediText}>
                             <h2>Don&apos;t miss the next prediction.</h2>
-                        </div>
+                        </div></> : <></>}
+                    
                     </>}
-                
+
                     </>}
 
 

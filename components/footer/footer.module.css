@@ -1,4 +1,3 @@
-@media screen and (min-width: 100vh) {
 
     .container {
 
@@ -18,19 +17,3 @@
         font-size: 1em;
     }
 
-
-}
-
-@media screen and (max-width: 80vh) {
-
-    .container {
-        display: none;
-    }
-}
-@media screen and (max-height: 55vh) {
-
-    .container {
-        display: none;
-    }
-
-}
