@@ -6,6 +6,8 @@ ALTER TABLE accounts MODIFY COLUMN id_token varchar(1200);
 
 ALTER TABLE `users` ADD COLUMN `winstreak` INT NULL DEFAULT 0;
 ALTER TABLE `users` ADD COLUMN `isAdmin` INT NULL DEFAULT NULL;
+ALTER TABLE `users` ADD COLUMN `isVip` INT NULL DEFAULT 0;
+
 
 INSERT INTO `predictor`.`predictions` (`id`, `name`, `end`, `createdAt`, `updatedAt`) VALUES ('1', 'first', '0', '2022-08-18 00:56:36', '2022-08-18 00:56:36');
 
