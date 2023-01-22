@@ -51,20 +51,19 @@ export default function Header() {
                 </Link>
 
 
-
+              
                 {!session && (<div className={styles.login}>
                     <Login></Login>
 
                 </div>)}
                 {session && (<>
-
-                    <div className={styles.connect}>You are connected {session.user.name}
-                    <Link href="/"><a onClick={() => signOut()}>Sign out</a></Link>
-
-                  
-                    </div>
-
-                </>)}
+                
+                <Link href="/"><a onClick={() => signOut()}>Sign out</a></Link>
+                
+                
+                
+                                </>)}
+     
 
             </div>
 

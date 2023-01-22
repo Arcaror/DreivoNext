@@ -1,54 +1,82 @@
 .answer {
-    position: relative;
-    display: flex;
-    margin-bottom: 10em;
-    color: gray;
-    flex-direction: column;
-    height: -10em;
+
+    position: absolute;
+    justify-items: center;
+    background-color: black;
+    width: 100%;
+    height: 90%;
+    display: grid;
+
+    color: white;
+    grid-template: "name name"
+        " prog prog "
+        "prediText prediText"
+        "button button"
+        "info  result ";
 
 }
 
 .answer .name {
-    position: fixed;
-    top: 0vw;
-    left: 0vw;
-    width: 100vw;
-    font-size: 5vmax;
+    grid-area: name;
+
+    position: relative;
+
+
+    display: flex;
+    top: 5vh;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 6vh;
+
+    font-size: 2vmax;
+
+    background: linear-gradient(90deg, red, orange) ;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    /* animation-name: textColor;
+    animation-duration: 20s;
+    animation-iteration-count: infinite; */
+
+
+
 }
 
 .answer .info {
-    position: fixed;
     display: flex;
-    width: 13em;
-    height: 4em;
+    grid-area: info;
+    padding: 2vw;
+    gap: 2vw;
+    height: 15vh;
+    width: 100%;
     bottom: 1em;
     left: 1em;
-    font-size: 2vmax;
+    font-size: 2vh;
     border-style: dashed;
     border-width: 0.2em;
-    padding: 1em;
     border-color: rgb(109, 23, 16);
     color: rgb(255, 153, 0)
 }
+
 .answer .info button {
-    height: 4em;
-    left: 2em;
-    top: 6em;
-    width: 6em;
-    font-size: large;
+
+    height: 10vh;
+    width: 10vw;
+
+
+    left: 20px;
+    font-size: 1.9vw;
     font-family: 'Bangers', cursive;
-    border-radius: 40%;
+
 }
+
 .answer .info p {
     display: flex;
-    position: relative;
-    width: 4em;
+    width: 10vw;
     height: 1em;
-    top: -2em;
-    left: 2em;
+    top: -10px;
+    font-size: 1vh;
     color: rgb(161, 168, 61);
-    font-family: 'Bangers', cursive;
-    font-size: 20px;
 }
 
 
@@ -66,67 +94,67 @@
 }
 
 .answer .prediText {
-    position: sticky;
-    display: block;
-    width: 20vw;
-    left : 75vw;
-    height: 20vh;
-    bottom: 15vh;
 
-    font-size: 1.5vmax;
-    right: 1px;
-    bottom: 0vmax;
-    font-family:'Courier New', Courier, monospace;
+    grid-area: prediText;
+    position: absolute;
+   font-size: 2vw;
+    font-family: 'Courier New', Courier, monospace;
 }
+
 .answer .resultBad {
+    grid-area: result;
     position: relative;
-    display: block;
-    top: 2em;   
+    top: 2vm;
     background-color: rgb(148, 24, 24);
 }
+
 .answer .resultTrue {
+    grid-area: result;
+
     position: relative;
-    display: block;
-    top: 2em;   
+    top: 2vm;
     background-color: rgb(14, 99, 14);
 }
+
 .answer button {
 
-    position: relative;
-    top: 6em;
-    width: 20vw;
-    height: 10vw;
-    font-size: 2vw;
+    
+    width: 12vmax;
+    height: 8vmax;
+    font-size: 3vw;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-
-    font-style: oblique;
-
+    
     border-style: solid;
     border-color: white;
 
-
 }
-.answer .buttonContainer{
-    display: flex;
+
+.answer .buttonContainer {
+    grid-area: button;
+    position: relative;
+    top: 1vmax;
     align-items: center;
     justify-content: center;
-    width: 100%;
-    gap: 1em;
-}
-.answer button:hover {background-color: yellow}
-
-.buttonContainer button:active, .buttonContainer button:focus{
-  background-color: rgb(255, 115, 0);
-
-
+    gap: 1vm;
 
 }
+
+.answer button:hover {
+    background-color: yellow
+}
+
+.buttonContainer button:active,
+.buttonContainer button:focus {
+    background-color: rgb(255, 115, 0);
+
+
+
+}
+
 .form {
-    position: absolute;
-    width: 100vw;
     left: 0em;
     text-align: center;
-    font-size: 2vmax;
+    font-size: 1vw;
     bottom: 2em;
     color: grey;
 
@@ -135,23 +163,13 @@
 
 
 .answer p {
-    font-size: 3em;
+    font-size: 1vw;
     font-family: Arial, Helvetica, sans-serif;
 }
 
 .answer h2 {
 
     font-family: 'Courier New', Courier, monospace
-}
-
-.answer h1 {
-    position: relative;
-
-
-    animation-name: textColor;
-    animation-duration: 20s;
-    animation-iteration-count: infinite;
-    align-items: center;
 }
 
 @keyframes textColor {
@@ -166,17 +184,20 @@
     }
 
     40% {
-        color: #e43606;        ;
+        color: #e43606;
+        ;
     }
 
     60% {
-        color: #da5238;        ;
+        color: #da5238;
+        ;
     }
 
     80% {
-        color: #dc5414;        ;
+        color: #dc5414;
+        ;
     }
-    
+
     100% {
         color: #0d0404;
     }
@@ -200,11 +221,13 @@
 }
 
 .answer .prog {
-    position: fixed;
-    top: 22vmax;
-    left: 1vw;
-    width: 80vw;
-
+    grid-area: prog;
+    display: flex;
+    position: relative;
+    top: -3vh;
+    height: 5vh;
+    width: 100%;
+    
 
 }
 
@@ -213,7 +236,7 @@
     justify-content: center;
     align-items: center;
 
-    font-size: 1em;
+    font-size: 1vw;
     width: 20em;
     position: sticky;
 

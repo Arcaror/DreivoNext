@@ -6,6 +6,7 @@ import Router from 'next/router'
 import { io } from 'socket.io-client'
 
 import { socket } from '../predict/answer'
+import Progress_bar from '../progressbar/progress_bar';
 
 export default function Prediction() {
 
@@ -170,7 +171,6 @@ export default function Prediction() {
             {typeof predi == 'undefined' ? <> ???
             </> : <>
 
-
                 <h2> Prediction ID is : {predi} <br></br> Response : {answer}</h2>
                 <div className={styles.buttonContainer}>
                     <button className={styles.create} onClick={() => create()}> Create prediction </button>
@@ -182,6 +182,7 @@ export default function Prediction() {
                         <button className={styles.no} onClick={() => resetAll()}>Reset Winstreak of All players </button>
                     </div>
                 </div>
+
             </>}
 
 

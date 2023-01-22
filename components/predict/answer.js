@@ -296,10 +296,9 @@ export default function Answer() {
                 <h1> {predi.name} </h1>
 
             </div>
-            <div className={styles.prog}> {time / 20 * 100 < 100 && (predi.end == 0 || typeof predi.end == 'undefined') && time != '' ? <><Progress_bar progress={time / 20 * 100} height={140} /> </> : <> <h2>Time since creation of prediction : {time} seconds</h2></>}
+            <div className={styles.prog}> {time / 20 * 100 < 100 && (predi.end == 0 || typeof predi.end == 'undefined') && time != '' ? <><Progress_bar progress={time / 20 * 100} height={140} /> </> : <> </>}
             </div>
 
-            <div className={styles.form}>
 
                 <div className={styles.info}>
                     {session.id}
@@ -309,7 +308,6 @@ export default function Answer() {
                     {typeof vip.buttonText == 'undefined' ?
                          <>          
                          Twitch Sub mode : {user.isVip == 1 ? <>yes</> : <>no</>}
-
                             <button onClick={() => setSub()}>SUB MODE TWITCH</button></>  
                             : <>
                                 Twitch Sub mode : {vip.status}
@@ -318,7 +316,7 @@ export default function Answer() {
                                 <p>{vip.sentence}</p>
                             </>}
                 </div>
-                {time <= 20 && predi.end == 0 ? <>
+                {time <= 20 && time != '' && predi.end == 0 ? <>
 
                     <div className={styles.buttonContainer}>
                         <button id='yes' onClick={() => setYes()} className={styles.yes} >Yes</button>
@@ -329,8 +327,9 @@ export default function Answer() {
                 </> : <>
 
                     <div className={styles.prediText}>
-                        {vote == '' ? <> Too late ... there is 20 seconds for vote.</> : <>
-                            Thank you for your participation.
+                        {vote == '' && predi.end != 0 ? <> Too late ... there is 20 seconds for vote.</> : <>
+
+                        {(predi.end == 0 && vote != '') ??(<> Thank you for your participation. </>)}    
                         </>}  </div>
 
                 </>}
@@ -344,7 +343,7 @@ export default function Answer() {
                     </div>
                 </>
 
-                    : <>{time <= 20 && predi.end == 0 && vote != "" ? <>
+                    : <>{predi.end == 0 ? <>
                         <div className={styles.prediText}>
                             <h2>Good luck!</h2>
                         </div>
@@ -361,7 +360,6 @@ export default function Answer() {
 
 
 
-            </div>
 
         </div>
     }
